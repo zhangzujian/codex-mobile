@@ -278,7 +278,7 @@ function handleNotification(notification: RpcNotification): void {
     saveTabsState()
     if (notificationSessionId !== activeSessionId.value) return
     terminal.writeln('')
-    terminal.writeln('[terminal exited]')
+    terminal.writeln(t('[terminal exited]'))
     return
   }
   if (notification.method === 'terminal-error') {

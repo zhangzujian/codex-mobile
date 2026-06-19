@@ -129,6 +129,7 @@ describe('UI language translations', () => {
 
     expect([
       'Terminal session missing',
+      '[terminal exited]',
       'Terminal error',
       'Terminal close failed',
       'Quick command failed',
@@ -173,5 +174,12 @@ describe('UI language translations', () => {
     expect(source).not.toContain("|| 'Terminal error'")
     expect(source).not.toContain(": 'Terminal close failed'")
     expect(source).not.toContain(": 'Quick command failed'")
+  })
+
+  it('routes terminal lifecycle status lines through the UI translator before writing to xterm', () => {
+    const source = readSource('src/components/content/ThreadTerminalPanel.vue')
+
+    expect(source).toContain("terminal.writeln(t('[terminal exited]'))")
+    expect(source).not.toContain("terminal.writeln('[terminal exited]')")
   })
 })

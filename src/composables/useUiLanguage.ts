@@ -433,6 +433,7 @@ const zhCN: Record<string, string> = {
   'Terminal input failed': '终端输入失败',
   'Terminal attach failed': '终端附加失败',
   'Terminal session missing': '终端会话不存在',
+  '[terminal exited]': '[终端已退出]',
   'Terminal error': '终端错误',
   'Terminal close failed': '关闭终端失败',
   'Quick command failed': '快捷命令执行失败',
