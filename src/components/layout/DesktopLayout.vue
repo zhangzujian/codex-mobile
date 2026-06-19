@@ -18,7 +18,7 @@
         v-if="!isSidebarCollapsed"
         class="desktop-resize-handle"
         type="button"
-        aria-label="Resize sidebar"
+        :aria-label="t('Resize sidebar')"
         @mousedown="onResizeHandleMouseDown"
       />
     </template>
@@ -32,6 +32,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useMobile } from '../../composables/useMobile'
+import { t } from '../../composables/useUiLanguage'
 
 const props = withDefaults(
   defineProps<{

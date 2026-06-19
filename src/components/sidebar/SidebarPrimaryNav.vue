@@ -1,12 +1,13 @@
 <template>
   <nav class="sidebar-primary-nav">
-    <SidebarMenuRow as="button" class="sidebar-nav-item" type="button">New thread</SidebarMenuRow>
-    <SidebarMenuRow as="button" class="sidebar-nav-item" type="button">Automations</SidebarMenuRow>
-    <SidebarMenuRow as="button" class="sidebar-nav-item" type="button">Skills</SidebarMenuRow>
+    <SidebarMenuRow as="button" class="sidebar-nav-item" type="button">{{ t('Start new thread') }}</SidebarMenuRow>
+    <SidebarMenuRow as="button" class="sidebar-nav-item" type="button">{{ t('Automations') }}</SidebarMenuRow>
+    <SidebarMenuRow as="button" class="sidebar-nav-item" type="button">{{ t('Skills') }}</SidebarMenuRow>
   </nav>
 </template>
 
 <script setup lang="ts">
+import { t } from '../../composables/useUiLanguage'
 import SidebarMenuRow from './SidebarMenuRow.vue'
 </script>
 

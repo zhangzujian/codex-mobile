@@ -354,22 +354,22 @@ function readRequestReason(request: UiServerRequest): string {
 }
 
 function requestPanelTitle(request: UiServerRequest): string {
-  if (isApprovalRequest(request)) return 'Awaiting approval'
-  if (isMcpElicitationRequest(request)) return 'MCP server input required'
-  if (request.method === 'item/tool/requestUserInput') return 'Awaiting response'
-  if (request.method === 'item/tool/call') return 'Tool call waiting for response'
+  if (isApprovalRequest(request)) return t('Awaiting approval')
+  if (isMcpElicitationRequest(request)) return t('MCP server input required')
+  if (request.method === 'item/tool/requestUserInput') return t('Awaiting response')
+  if (request.method === 'item/tool/call') return t('Tool call waiting for response')
   return request.method
 }
 
 function requestPanelPrompt(request: UiServerRequest): string {
   const explicit = readRequestReason(request)
   if (explicit) return explicit
-  if (isCommandApprovalRequest(request)) return 'Do you want to run this command?'
-  if (isFileApprovalRequest(request)) return 'Do you want to make these changes?'
-  if (isPermissionsApprovalRequest(request)) return 'Do you want to grant these permissions?'
-  if (isMcpElicitationRequest(request)) return 'An MCP server needs your input before Codex can continue.'
-  if (request.method === 'item/tool/requestUserInput') return 'Codex needs your answer before it can continue.'
-  return 'Codex is waiting for a response before it can continue.'
+  if (isCommandApprovalRequest(request)) return t('Do you want to run this command?')
+  if (isFileApprovalRequest(request)) return t('Do you want to make these changes?')
+  if (isPermissionsApprovalRequest(request)) return t('Do you want to grant these permissions?')
+  if (isMcpElicitationRequest(request)) return t('An MCP server needs your input before Codex can continue.')
+  if (request.method === 'item/tool/requestUserInput') return t('Codex needs your answer before it can continue.')
+  return t('Codex is waiting for a response before it can continue.')
 }
 
 function unwrapApprovalCommand(value: string): string {
@@ -430,9 +430,9 @@ function formatPermissionsPreview(value: unknown): string {
 
   const readPaths = Array.isArray(fileSystem?.read) ? fileSystem.read.filter((entry): entry is string => typeof entry === 'string') : []
   const writePaths = Array.isArray(fileSystem?.write) ? fileSystem.write.filter((entry): entry is string => typeof entry === 'string') : []
-  if (readPaths.length > 0) parts.push(`Read: ${readPaths.join(', ')}`)
-  if (writePaths.length > 0) parts.push(`Write: ${writePaths.join(', ')}`)
-  if (network?.enabled === true) parts.push('Network access')
+  if (readPaths.length > 0) parts.push(`${t('Read')}: ${readPaths.join(', ')}`)
+  if (writePaths.length > 0) parts.push(`${t('Write')}: ${writePaths.join(', ')}`)
+  if (network?.enabled === true) parts.push(t('Network access'))
 
   return parts.join(' • ')
 }
@@ -440,8 +440,8 @@ function formatPermissionsPreview(value: unknown): string {
 function approvalOptionsForRequest(request: UiServerRequest | null): ApprovalOption[] {
   if (!request || !isApprovalRequest(request)) return []
   return [
-    { id: 'accept', label: 'Yes' },
-    { id: 'acceptForSession', label: 'Yes for Session' },
+    { id: 'accept', label: t('Yes') },
+    { id: 'acceptForSession', label: t('Yes for Session') },
   ]
 }
 

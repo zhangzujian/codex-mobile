@@ -1,12 +1,12 @@
 <template>
   <section class="conversation-root" @contextmenu.capture="onConversationContextMenu">
-    <p v-if="isLoading" class="conversation-loading">Loading messages...</p>
+    <p v-if="isLoading" class="conversation-loading">{{ t('Loading messages...') }}</p>
 
     <p
       v-else-if="messages.length === 0 && pendingRequests.length === 0 && !liveOverlay"
       class="conversation-empty"
     >
-      No messages in this thread yet.
+      {{ t('No messages in this thread yet.') }}
     </p>
 
     <ul v-else ref="conversationListRef" class="conversation-list" @scroll="onConversationScroll">
@@ -17,7 +17,7 @@
           :disabled="isLoadingMore || isLoadingPersistedAbove"
           @click="loadMoreAbove"
         >
-          {{ isLoadingMore || isLoadingPersistedAbove ? 'Loading…' : 'Load earlier messages' }}
+          {{ isLoadingMore || isLoadingPersistedAbove ? t('Loading…') : t('Load earlier messages') }}
         </button>
       </li>
       <template v-for="message in visibleMessages" :key="message.id">
@@ -922,6 +922,7 @@ import type { UiFileChange, UiLiveOverlay, UiMessage, UiPlanStep, UiServerReques
 import { updateThreadFileChanges } from '../../api/codexGateway'
 import { useFeedbackDiagnostics } from '../../composables/useFeedbackDiagnostics'
 import { useMobile } from '../../composables/useMobile'
+import { t } from '../../composables/useUiLanguage'
 import { copyTextToClipboard, copyTextWithSelectionFallback } from '../../utils/clipboard'
 
 import IconTablerArrowBackUp from '../icons/IconTablerArrowBackUp.vue'
@@ -2045,9 +2046,9 @@ function fileChangeNextAction(summary: TurnFileChangeSummary | null): 'undo' | '
 
 function fileChangeActionLabel(summary: TurnFileChangeSummary | null): string {
   const status = fileChangeActionStatus(summary)
-  if (status === 'undoing') return 'Undoing'
-  if (status === 'redoing') return 'Redoing'
-  return fileChangeNextAction(summary) === 'redo' ? 'Redo' : 'Undo'
+  if (status === 'undoing') return t('Undoing')
+  if (status === 'redoing') return t('Redoing')
+  return fileChangeNextAction(summary) === 'redo' ? t('Redo') : t('Undo')
 }
 
 async function runFileChangeAction(summary: TurnFileChangeSummary | null, action: 'undo' | 'redo'): Promise<void> {
@@ -2073,7 +2074,7 @@ async function runFileChangeAction(summary: TurnFileChangeSummary | null, action
     fileChangeActionState.value = { ...fileChangeActionState.value, [key]: previousState }
     fileChangeActionError.value = {
       ...fileChangeActionError.value,
-      [key]: error instanceof Error ? error.message : 'Failed to update file changes.',
+      [key]: error instanceof Error ? error.message : t('Failed to update file changes.'),
     }
     return
   }
@@ -2103,11 +2104,11 @@ async function runFileChangeAction(summary: TurnFileChangeSummary | null, action
 
 function fileChangeOperationLabel(change: UiFileChange): string {
   if (change.operation === 'update' && change.movedToPath) {
-    return change.addedLineCount > 0 || change.removedLineCount > 0 ? 'Moved + edited' : 'Moved'
+    return change.addedLineCount > 0 || change.removedLineCount > 0 ? t('Moved + edited') : t('Moved')
   }
-  if (change.operation === 'add') return 'Added'
-  if (change.operation === 'delete') return 'Deleted'
-  return 'Edited'
+  if (change.operation === 'add') return t('Added')
+  if (change.operation === 'delete') return t('Deleted')
+  return t('Edited')
 }
 
 function fileChangeOperationTone(change: UiFileChange): 'add' | 'delete' | 'update' | 'move' {
@@ -2142,7 +2143,7 @@ function fileChangeDeltaParts(change: UiFileChange): FileChangeDeltaPart[] {
 }
 
 function formatFileChangeCountLabel(count: number): string {
-  return count === 1 ? '1 file changed' : `${count} files changed`
+  return count === 1 ? t('1 file changed') : t('{count} files changed', { count })
 }
 
 function summarizeFileChangeKinds(summary: TurnFileChangeSummary | null): string {
@@ -2169,15 +2170,15 @@ function summarizeFileChangeKinds(summary: TurnFileChangeSummary | null): string
   }
 
   const parts: string[] = []
-  if (edited > 0) parts.push(`${edited} edited`)
-  if (added > 0) parts.push(`${added} added`)
-  if (deleted > 0) parts.push(`${deleted} deleted`)
-  if (moved > 0) parts.push(`${moved} moved`)
+  if (edited > 0) parts.push(t('{count} edited', { count: edited }))
+  if (added > 0) parts.push(t('{count} added', { count: added }))
+  if (deleted > 0) parts.push(t('{count} deleted', { count: deleted }))
+  if (moved > 0) parts.push(t('{count} moved', { count: moved }))
   return parts.join(', ')
 }
 
 function fileChangeSummaryLabel(summary: TurnFileChangeSummary | null): string {
-  if (!summary || summary.changes.length === 0) return 'Modified files'
+  if (!summary || summary.changes.length === 0) return t('Modified files')
   const countLabel = formatFileChangeCountLabel(summary.changes.length)
   const kindSummary = summarizeFileChangeKinds(summary)
   return kindSummary ? `${countLabel} · ${kindSummary}` : countLabel
@@ -3792,12 +3793,12 @@ function readRequestReason(request: UiServerRequest): string {
 }
 
 function requestDisplayTitle(request: UiServerRequest): string {
-  if (request.method === 'item/commandExecution/requestApproval') return 'Command approval required'
-  if (request.method === 'item/fileChange/requestApproval') return 'File change approval required'
-  if (request.method === 'item/permissions/requestApproval') return 'Permissions approval required'
-  if (request.method === 'mcpServer/elicitation/request') return 'MCP server input required'
-  if (request.method === 'item/tool/requestUserInput') return 'Input required'
-  if (request.method === 'item/tool/call') return 'Tool call waiting for response'
+  if (request.method === 'item/commandExecution/requestApproval') return t('Command approval required')
+  if (request.method === 'item/fileChange/requestApproval') return t('File change approval required')
+  if (request.method === 'item/permissions/requestApproval') return t('Permissions approval required')
+  if (request.method === 'mcpServer/elicitation/request') return t('MCP server input required')
+  if (request.method === 'item/tool/requestUserInput') return t('Input required')
+  if (request.method === 'item/tool/call') return t('Tool call waiting for response')
   return request.method
 }
 
