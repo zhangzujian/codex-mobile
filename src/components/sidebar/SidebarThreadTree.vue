@@ -378,7 +378,7 @@
                   :title="getNewThreadButtonAriaLabel(group.projectName)"
                   @click.stop="onStartNewThread(group.projectName)"
                 >
-                  <IconTablerFilePencil class="thread-icon" />
+                  <IconTablerMessagePlus class="thread-icon" />
                 </button>
               </div>
             </template>
@@ -506,7 +506,7 @@
               :title="t('New chat')"
               @click.stop="$emit('start-new-chat')"
             >
-              <IconTablerFilePencil class="thread-icon" />
+              <IconTablerMessagePlus class="thread-icon" />
             </button>
           </div>
         </template>
@@ -898,6 +898,7 @@ import IconTablerFolderOpen from '../icons/IconTablerFolderOpen.vue'
 import IconTablerGitFork from '../icons/IconTablerGitFork.vue'
 import IconTablerBolt from '../icons/IconTablerBolt.vue'
 import IconTablerTrash from '../icons/IconTablerTrash.vue'
+import IconTablerMessagePlus from '../icons/IconTablerMessagePlus.vue'
 import { useUiLanguage } from '../../composables/useUiLanguage'
 import { useFeedbackDiagnostics } from '../../composables/useFeedbackDiagnostics'
 import { getPathLeafName, getPathParent, isAbsoluteLikePath, isProjectlessChatPath } from '../../pathUtils.js'
