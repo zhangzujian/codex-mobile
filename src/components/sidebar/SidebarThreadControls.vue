@@ -21,16 +21,16 @@
       :title="t('Start new thread')"
       @click="$emit('start-new-thread')"
     >
-      <IconTablerFilePencil class="sidebar-thread-controls-icon" />
+      <IconTablerMessagePlus class="sidebar-thread-controls-icon" />
     </button>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useUiLanguage } from '../../composables/useUiLanguage'
-import IconTablerFilePencil from '../icons/IconTablerFilePencil.vue'
 import IconTablerLayoutSidebar from '../icons/IconTablerLayoutSidebar.vue'
 import IconTablerLayoutSidebarFilled from '../icons/IconTablerLayoutSidebarFilled.vue'
+import IconTablerMessagePlus from '../icons/IconTablerMessagePlus.vue'
 
 defineProps<{
   isSidebarCollapsed: boolean

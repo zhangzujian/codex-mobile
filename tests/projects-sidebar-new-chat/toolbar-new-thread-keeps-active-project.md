@@ -10,14 +10,16 @@ The global Start new thread action opens the new-thread composer with the active
 ## Steps
 1. In light theme, open `http://127.0.0.1:4173/#/`.
 2. Select a thread inside a project from the sidebar.
-3. Click the toolbar Start new thread button.
-4. Confirm the home/new-thread composer opens with the same project folder selected, not an empty or projectless selection.
-5. Send a first message and confirm the new thread appears under the same project in the sidebar.
-6. While already on the home/new-thread route with a folder selected, click Start new thread again and confirm the selected folder is not cleared.
-7. Repeat the selection and Start new thread flow in dark theme.
+3. Confirm the toolbar Start new thread button uses a message-plus icon, not a file edit icon.
+4. Click the toolbar Start new thread button.
+5. Confirm the home/new-thread composer opens with the same project folder selected, not an empty or projectless selection.
+6. Send a first message and confirm the new thread appears under the same project in the sidebar.
+7. While already on the home/new-thread route with a folder selected, click Start new thread again and confirm the selected folder is not cleared.
+8. Repeat the selection and Start new thread flow in dark theme.
 
 ## Expected Results
 - The toolbar Start new thread action preserves the active thread's project context.
+- The toolbar Start new thread action uses an icon that reads as creating a new chat/thread.
 - The new-thread folder dropdown shows the project folder immediately after navigation.
 - Existing home-route folder selection is preserved when no active thread project resolves.
 - New threads created from that composer are grouped under the same project.
