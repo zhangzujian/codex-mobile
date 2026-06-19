@@ -7,7 +7,7 @@
 #### Steps
 1. Open Settings from the sidebar and set UI language to Simplified Chinese.
 2. Open the Skills route and switch through Skills, Plugins, Apps, and Composio tabs.
-3. Open the Automations route.
+3. Open the Automations route, then open the add/edit automation dialog from a thread or project menu.
 4. Open a thread, inspect the message area, queued-message controls if present, and approval/input request cards if any are pending.
 5. In the sidebar, expand a project or Chats section with hidden rows and confirm Show more/Show less labels are translated.
 6. Open a project overflow menu and a thread overflow menu; inspect the trigger tooltips plus Browse files, Copy path, Export Project, automation, worktree, rename, Remove, fork, pin, and copy-chat actions.
@@ -16,11 +16,13 @@
 9. Open changed-file review/diff surfaces and confirm Changed files plus file operation badges such as Added, Modified, Deleted, and Renamed are translated.
 10. Open the branch/worktree dropdown in the content header and inspect commit file status badges such as Added, Modified, Deleted, and Renamed.
 11. Open delete confirmation UI from a thread row/menu and confirm the title, explanatory text, Confirm, Cancel, Delete, and archive/remove labels are translated.
-12. Open the integrated terminal and inspect terminal header actions such as New terminal, Hide, and Close.
+12. Open the integrated terminal and inspect terminal header actions such as New terminal, Hide, and Close. Trigger or simulate a stale terminal session error if possible.
 13. Return to Settings and inspect provider, account, Telegram, feedback, and terminal font rows.
 
 #### Expected Results
 - Static controls, headings, placeholders, empty states, badges, buttons, and toast/fallback messages are shown in Simplified Chinese where they are app-provided UI copy.
+- The automation editor dialog translates app-provided titles, target selector labels, placeholders, schedule mode labels, RRULE helper text, status labels, and actions.
+- App-provided integrated terminal errors, including stale or missing terminal session messages, are localized.
 - Brand names, model names, branch names, plugin/app names, server-returned errors, paths, commands, and message content remain unchanged.
 - No obvious English UI labels remain on the inspected app-provided surfaces.
 

@@ -87,6 +87,14 @@ describe('UI language translations', () => {
       { file: 'src/components/sidebar/SidebarThreadTree.vue', snippet: 'title="thread_menu"' },
       { file: 'src/components/sidebar/SidebarThreadTree.vue', snippet: 'aria-label="Delete thread"' },
       { file: 'src/components/content/ThreadTerminalPanel.vue', snippet: 'title="New"' },
+      { file: 'src/components/sidebar/SidebarThreadTree.vue', snippet: "automationDialogScope === 'project' ? 'Project automation' : 'Thread automation'" },
+      { file: 'src/components/sidebar/SidebarThreadTree.vue', snippet: "automationDialogMode === 'edit' ? 'Edit automation' : 'Add automation'" },
+      { file: 'src/components/sidebar/SidebarThreadTree.vue', snippet: '>Existing chat<' },
+      { file: 'src/components/sidebar/SidebarThreadTree.vue', snippet: '>Daily<' },
+      { file: 'src/components/sidebar/SidebarThreadTree.vue', snippet: '>Interval<' },
+      { file: 'src/components/sidebar/SidebarThreadTree.vue', snippet: '>Run every day at<' },
+      { file: 'src/components/sidebar/SidebarThreadTree.vue', snippet: "return `RRULE: ${rrule} · runs daily at ${padRruleNumber(hour)}:${padRruleNumber(minute)}`" },
+      { file: 'src/components/sidebar/SidebarThreadTree.vue', snippet: "return rrule ? `RRULE: ${rrule}` : 'RRULE is required.'" },
     ]
     const hardcodedPatterns: Array<{ file: string; pattern: RegExp; label: string }> = [
       { file: 'src/components/sidebar/SidebarThreadTree.vue', pattern: />\s*Browse files\s*</u, label: 'Browse files text node' },
@@ -100,6 +108,10 @@ describe('UI language translations', () => {
       { file: 'src/components/sidebar/SidebarThreadTree.vue', pattern: />\s*Cancel\s*</u, label: 'Cancel text node' },
       { file: 'src/components/sidebar/SidebarThreadTree.vue', pattern: /\?\s*'Archive and remove'\s*:\s*'Delete'/u, label: 'Delete action ternary literal' },
       { file: 'src/components/content/ThreadTerminalPanel.vue', pattern: />\s*New\s*</u, label: 'New terminal action text node' },
+      { file: 'src/components/sidebar/SidebarThreadTree.vue', pattern: /\bplaceholder="Describe what the automation should do"/u, label: 'Automation prompt placeholder' },
+      { file: 'src/components/sidebar/SidebarThreadTree.vue', pattern: />\s*Add another automation\s*</u, label: 'Add another automation text node' },
+      { file: 'src/components/sidebar/SidebarThreadTree.vue', pattern: />\s*Run now\s*</u, label: 'Run now text node' },
+      { file: 'src/components/sidebar/SidebarThreadTree.vue', pattern: />\s*Remove\s*</u, label: 'Remove text node' },
     ]
 
     const remaining = hardcodedSnippets.filter(({ file, snippet }) => readSource(file).includes(snippet))
@@ -110,5 +122,56 @@ describe('UI language translations', () => {
         ...remainingPatterns.map(({ file, label }) => `${relative(repoRoot, join(repoRoot, file))}: ${label}`),
       ],
     ).toEqual([])
+  })
+
+  it('has Simplified Chinese entries for terminal error states surfaced to users', () => {
+    const zhCNKeys = extractZhCNKeys()
+
+    expect([
+      'Terminal session missing',
+      'Terminal error',
+      'Terminal close failed',
+      'Quick command failed',
+      'Terminal is not connected',
+      'Terminal is not ready',
+    ].filter((key) => !zhCNKeys.has(key))).toEqual([])
+  })
+
+  it('has Simplified Chinese entries for automation editor copy surfaced to users', () => {
+    const zhCNKeys = extractZhCNKeys()
+
+    expect([
+      'Project automation',
+      'Edit automation',
+      'Add automation',
+      'Existing chat',
+      'Prompt',
+      'RRULE',
+      'Interval',
+      'Run every day at',
+      'Run every {count} {unit}',
+      'minutes',
+      'hours',
+      'days',
+      'runs daily at {time}',
+      'runs every {count} minute',
+      'runs every {count} minutes',
+      'runs every {count} hour',
+      'runs every {count} hours',
+      'runs every {count} day',
+      'runs every {count} days',
+      'RRULE is required.',
+    ].filter((key) => !zhCNKeys.has(key))).toEqual([])
+  })
+
+  it('routes terminal error messages through the UI translator before rendering', () => {
+    const source = readSource('src/components/content/ThreadTerminalPanel.vue')
+
+    expect(source).toContain('terminalErrorText')
+    expect(source).toContain('terminalNotificationErrorText')
+    expect(source).not.toMatch(/error instanceof Error\s*\?\s*error\.message/u)
+    expect(source).not.toContain("|| 'Terminal error'")
+    expect(source).not.toContain(": 'Terminal close failed'")
+    expect(source).not.toContain(": 'Quick command failed'")
   })
 })

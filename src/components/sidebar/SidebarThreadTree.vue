@@ -694,20 +694,20 @@
 
     <Teleport to="body">
       <div v-if="automationDialogVisible" class="rename-thread-overlay" @click.self="closeAutomationDialog">
-        <div class="rename-thread-panel automation-thread-panel" role="dialog" aria-modal="true" :aria-label="automationDialogScope === 'project' ? 'Project automation' : 'Thread automation'">
-          <h3 class="rename-thread-title">{{ automationDialogMode === 'edit' ? 'Edit automation' : 'Add automation' }}</h3>
+        <div class="rename-thread-panel automation-thread-panel" role="dialog" aria-modal="true" :aria-label="automationDialogScopeLabel">
+          <h3 class="rename-thread-title">{{ automationDialogTitle }}</h3>
           <p class="rename-thread-subtitle">{{ automationDialogSubtitle }}</p>
 
           <div v-if="automationTargetPickerVisible && automationDialogMode === 'create'" class="automation-target-picker">
-            <span class="automation-thread-label">Target</span>
-            <div class="automation-target-mode-group" role="radiogroup" aria-label="Automation target type">
+            <span class="automation-thread-label">{{ t('Target') }}</span>
+            <div class="automation-target-mode-group" role="radiogroup" :aria-label="t('Automation target type')">
               <button
                 class="automation-target-mode"
                 :class="{ 'is-active': automationTargetMode === 'thread' }"
                 type="button"
                 @click="setAutomationTargetMode('thread')"
               >
-                Existing chat
+                {{ t('Existing chat') }}
               </button>
               <button
                 class="automation-target-mode"
@@ -715,7 +715,7 @@
                 type="button"
                 @click="setAutomationTargetMode('project')"
               >
-                Project
+                {{ t('Project') }}
               </button>
             </div>
 
@@ -724,14 +724,14 @@
                 v-model="automationTargetValue"
                 class="automation-thread-dropdown"
                 :options="automationTargetDropdownOptions"
-                :placeholder="automationTargetMode === 'project' ? 'Select project' : 'Select chat'"
+                :placeholder="automationTargetMode === 'project' ? t('Select project') : t('Select chat')"
                 enable-search
-                :search-placeholder="automationTargetMode === 'project' ? 'Search projects' : 'Search chats'"
+                :search-placeholder="automationTargetMode === 'project' ? t('Search projects') : t('Search chats')"
               />
             </div>
           </div>
 
-          <div v-if="automationDialogAutomations.length > 0" class="automation-thread-list" :aria-label="automationDialogScope === 'project' ? 'Project automations' : 'Thread automations'">
+          <div v-if="automationDialogAutomations.length > 0" class="automation-thread-list" :aria-label="automationDialogScope === 'project' ? t('Project automations') : t('Thread automations')">
             <button
               v-for="automation in automationDialogAutomations"
               :key="automation.id"
@@ -741,33 +741,33 @@
               @click="selectAutomationForEditing(automation.id)"
             >
               <span>{{ automation.name }}</span>
-              <small>{{ automation.status === 'PAUSED' ? 'Paused' : 'Active' }}</small>
+              <small>{{ automation.status === 'PAUSED' ? t('Paused') : t('Active') }}</small>
             </button>
             <button class="automation-thread-list-item automation-thread-list-add" type="button" @click="startNewAutomationDraft">
-              Add another automation
+              {{ t('Add another automation') }}
             </button>
           </div>
 
           <label class="automation-thread-field">
-            <span class="automation-thread-label">Name</span>
-            <input v-model="automationDraft.name" class="rename-thread-input" type="text" placeholder="Automation name" />
+            <span class="automation-thread-label">{{ t('Name') }}</span>
+            <input v-model="automationDraft.name" class="rename-thread-input" type="text" :placeholder="t('Automation name')" />
           </label>
 
           <label class="automation-thread-field">
-            <span class="automation-thread-label">Prompt</span>
-            <textarea v-model="automationDraft.prompt" class="automation-thread-textarea" rows="6" placeholder="Describe what the automation should do"></textarea>
+            <span class="automation-thread-label">{{ t('Prompt') }}</span>
+            <textarea v-model="automationDraft.prompt" class="automation-thread-textarea" rows="6" :placeholder="t('Describe what the automation should do')"></textarea>
           </label>
 
           <div class="automation-thread-field">
-            <span class="automation-thread-label">Schedule</span>
-            <div class="automation-schedule-mode-group" role="radiogroup" aria-label="Automation schedule type">
+            <span class="automation-thread-label">{{ t('Schedule') }}</span>
+            <div class="automation-schedule-mode-group" role="radiogroup" :aria-label="t('Automation schedule type')">
               <button
                 class="automation-schedule-mode"
                 :class="{ 'is-active': automationScheduleDraft.mode === 'daily' }"
                 type="button"
                 @click="setAutomationScheduleMode('daily')"
               >
-                Daily
+                {{ t('Daily') }}
               </button>
               <button
                 class="automation-schedule-mode"
@@ -775,7 +775,7 @@
                 type="button"
                 @click="setAutomationScheduleMode('interval')"
               >
-                Interval
+                {{ t('Interval') }}
               </button>
               <button
                 class="automation-schedule-mode"
@@ -783,12 +783,12 @@
                 type="button"
                 @click="setAutomationScheduleMode('advanced')"
               >
-                RRULE
+                {{ t('RRULE') }}
               </button>
             </div>
 
             <div v-if="automationScheduleDraft.mode === 'daily'" class="automation-schedule-row">
-              <span class="automation-schedule-copy">Run every day at</span>
+              <span class="automation-schedule-copy">{{ t('Run every day at') }}</span>
               <input
                 v-model="automationScheduleDraft.dailyTime"
                 class="automation-schedule-time"
@@ -798,7 +798,7 @@
             </div>
 
             <div v-else-if="automationScheduleDraft.mode === 'interval'" class="automation-schedule-row">
-              <span class="automation-schedule-copy">Run every</span>
+              <span class="automation-schedule-copy">{{ t('Run every') }}</span>
               <input
                 v-model.number="automationScheduleDraft.interval"
                 class="automation-schedule-number"
@@ -811,7 +811,7 @@
                 class="automation-schedule-unit-dropdown"
                 :model-value="automationScheduleDraft.intervalUnit"
                 :options="automationIntervalUnitOptions"
-                placeholder="Unit"
+                :placeholder="t('Unit')"
                 @update:model-value="onAutomationIntervalUnitChange"
               />
             </div>
@@ -828,7 +828,7 @@
           </div>
 
           <div class="automation-thread-field">
-            <span class="automation-thread-label">Status</span>
+            <span class="automation-thread-label">{{ t('Status') }}</span>
             <ComposerDropdown
               class="automation-thread-dropdown"
               :model-value="automationDraft.status"
@@ -1057,15 +1057,21 @@ const automationDialogAutomations = computed(() => {
   const threadId = automationDialogThreadId.value
   return threadId ? (automationByThreadId.value[threadId] ?? []) : []
 })
+const automationDialogScopeLabel = computed(() => (
+  automationDialogScope.value === 'project' ? t('Project automation') : t('Thread automation')
+))
+const automationDialogTitle = computed(() => (
+  automationDialogMode.value === 'edit' ? t('Edit automation') : t('Add automation')
+))
 const automationSchedulePreview = computed(() => describeAutomationSchedule(automationDraft.value.rrule))
 const automationDialogSubtitle = computed(() => {
   if (automationTargetPickerVisible.value && automationDialogMode.value === 'create') {
-    if (automationTargetMode.value === 'thread') return 'This creates a heartbeat automation attached to the selected chat.'
-    return 'This creates a project automation attached to the selected project folder.'
+    if (automationTargetMode.value === 'thread') return t('This creates a heartbeat automation attached to the selected chat.')
+    return t('This creates a project automation attached to the selected project folder.')
   }
   return automationDialogScope.value === 'project'
-    ? 'This creates project automations attached to the selected project folder.'
-    : 'This creates heartbeat automations attached to the selected thread.'
+    ? t('This creates project automations attached to the selected project folder.')
+    : t('This creates heartbeat automations attached to the selected thread.')
 })
 const automationThreadTargetOptions = computed(() => {
   const rows: Array<{ value: string; label: string; searchText: string }> = []
@@ -1102,11 +1108,11 @@ const automationTargetDropdownOptions = computed(() => {
     : automationThreadTargetOptions.value
   return source.map((option) => ({ value: option.value, label: option.label }))
 })
-const automationIntervalUnitOptions = [
-  { value: 'minutes', label: 'minutes' },
-  { value: 'hours', label: 'hours' },
-  { value: 'days', label: 'days' },
-]
+const automationIntervalUnitOptions = computed(() => [
+  { value: 'minutes', label: t('minutes') },
+  { value: 'hours', label: t('hours') },
+  { value: 'days', label: t('days') },
+])
 const automationStatusOptions = computed(() => [
   { value: 'ACTIVE', label: t('Active') },
   { value: 'PAUSED', label: t('Paused') },
@@ -1667,12 +1673,21 @@ function describeAutomationSchedule(rrule: string): string {
   if (frequency === 'DAILY' && parts.BYHOUR !== undefined && parts.BYMINUTE !== undefined && interval === 1) {
     const hour = Math.min(23, Math.max(0, Number(parts.BYHOUR) || 0))
     const minute = Math.min(59, Math.max(0, Number(parts.BYMINUTE) || 0))
-    return `RRULE: ${rrule} · runs daily at ${padRruleNumber(hour)}:${padRruleNumber(minute)}`
+    return `${t('RRULE')}: ${rrule} · ${t('runs daily at {time}', { time: `${padRruleNumber(hour)}:${padRruleNumber(minute)}` })}`
   }
-  if (frequency === 'MINUTELY') return `RRULE: ${rrule} · runs every ${interval} minute${interval === 1 ? '' : 's'}`
-  if (frequency === 'HOURLY') return `RRULE: ${rrule} · runs every ${interval} hour${interval === 1 ? '' : 's'}`
-  if (frequency === 'DAILY' && parts.INTERVAL !== undefined) return `RRULE: ${rrule} · runs every ${interval} day${interval === 1 ? '' : 's'}`
-  return rrule ? `RRULE: ${rrule}` : 'RRULE is required.'
+  if (frequency === 'MINUTELY') {
+    const key = interval === 1 ? 'runs every {count} minute' : 'runs every {count} minutes'
+    return `${t('RRULE')}: ${rrule} · ${t(key, { count: interval })}`
+  }
+  if (frequency === 'HOURLY') {
+    const key = interval === 1 ? 'runs every {count} hour' : 'runs every {count} hours'
+    return `${t('RRULE')}: ${rrule} · ${t(key, { count: interval })}`
+  }
+  if (frequency === 'DAILY' && parts.INTERVAL !== undefined) {
+    const key = interval === 1 ? 'runs every {count} day' : 'runs every {count} days'
+    return `${t('RRULE')}: ${rrule} · ${t(key, { count: interval })}`
+  }
+  return rrule ? `${t('RRULE')}: ${rrule}` : t('RRULE is required.')
 }
 
 function syncAutomationRruleFromScheduleDraft(): void {
@@ -1965,7 +1980,7 @@ function startNewAutomationDraft(): void {
   automationDialogError.value = ''
   automationDialogNotice.value = ''
   automationDraft.value = {
-    name: automationDialogScope.value === 'project' ? 'Project automation' : 'Thread automation',
+    name: automationDialogScope.value === 'project' ? t('Project automation') : t('Thread automation'),
     prompt: '',
     rrule: 'FREQ=DAILY;BYHOUR=9;BYMINUTE=0',
     status: 'ACTIVE',

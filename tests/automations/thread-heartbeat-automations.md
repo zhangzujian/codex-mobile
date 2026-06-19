@@ -22,6 +22,7 @@
 13. Switch to dark theme, reopen `Manage automations…`, and confirm the list, inputs, textarea, status select, `Run now`, and queued-run notice remain readable.
 14. Select a thread that already contains automation runs and confirm both the automation prompt card and the assistant reply are visible.
 15. Remove the final automation and confirm the thread menu returns to `Add automation…`.
+16. Set UI language to Simplified Chinese, reopen the add/edit automation dialog, and inspect the title, target selector, field labels, schedule modes, RRULE preview, status dropdown, and action buttons.
 
 #### Expected Results
 - Multiple thread-scoped heartbeat automations can be created under the Codex automations store with the same `target_thread_id`.
@@ -31,6 +32,7 @@
 - Manual runs use the existing thread queue, so they do not interrupt an active turn and run in order when the thread is available.
 - Removing one automation does not remove other automations attached to the same thread.
 - Removing the final automation removes the thread row automation chip and returns the menu to `Add automation…`.
+- In Simplified Chinese, app-provided automation editor copy such as add/edit titles, Existing chat, Daily, Interval, Run every day at, status labels, and RRULE helper text is translated.
 - Light and dark theme automation manager surfaces remain readable.
 
 #### Rollback/Cleanup

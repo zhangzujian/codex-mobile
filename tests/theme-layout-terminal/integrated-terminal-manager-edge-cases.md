@@ -9,6 +9,7 @@ Automated unit coverage for terminal manager edge cases that do not require a br
 #### Steps
 1. Run `pnpm run test:unit`
 2. Optionally run the focused test file with `pnpm run test:unit -- src/server/terminalManager.test.ts`
+3. Set UI language to Simplified Chinese, open the integrated terminal, and trigger or simulate a stale/missing terminal session error.
 
 #### Expected Results
 - Missing thread ids are rejected before spawning a PTY
@@ -18,6 +19,7 @@ Automated unit coverage for terminal manager edge cases that do not require a br
 - Output snapshots truncate to the last 16 KiB and set `truncated`
 - Existing session reattach emits init/attached events and safely syncs changed cwd
 - `New` adds a new tab without killing the previous session, and close/exit removes snapshots for the active session
+- App-provided terminal errors such as `Terminal session missing`, terminal close failure, and quick command failure render through the UI language translator instead of showing raw English in Simplified Chinese.
 
 #### Rollback/Cleanup
 - None

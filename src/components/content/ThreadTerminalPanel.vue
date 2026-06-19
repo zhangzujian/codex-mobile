@@ -195,7 +195,7 @@ function createTerminal(): void {
   terminal.onData((data) => {
     if (!activeSessionId.value) return
     void sendThreadTerminalInput(activeSessionId.value, data).catch((error: unknown) => {
-      errorMessage.value = error instanceof Error ? error.message : t('Terminal input failed')
+      errorMessage.value = terminalErrorText(error, 'Terminal input failed')
     })
   })
 
@@ -245,7 +245,7 @@ async function doAttachToThread(newSession: boolean, targetSessionId = ''): Prom
     saveTabsState()
     renderSessionBuffer(session.buffer)
   } catch (error) {
-    errorMessage.value = error instanceof Error ? error.message : t('Terminal attach failed')
+    errorMessage.value = terminalErrorText(error, 'Terminal attach failed')
   }
 }
 
@@ -285,7 +285,7 @@ function handleNotification(notification: RpcNotification): void {
     patchTab(notificationSessionId, { status: 'error' })
     saveTabsState()
     if (notificationSessionId !== activeSessionId.value) return
-    errorMessage.value = readString(params?.message) || 'Terminal error'
+    errorMessage.value = terminalNotificationErrorText(readString(params?.message), 'Terminal error')
   }
 }
 
@@ -318,7 +318,7 @@ function onCloseTerminal(): void {
   const nextTab = nextTabs[Math.max(0, Math.min(currentIndex, nextTabs.length - 1))]
   if (currentSessionId) {
     void closeThreadTerminal(currentSessionId).catch((error: unknown) => {
-      errorMessage.value = error instanceof Error ? error.message : 'Terminal close failed'
+      errorMessage.value = terminalErrorText(error, 'Terminal close failed')
     })
   }
   if (nextTab) {
@@ -495,7 +495,7 @@ async function runQuickCommand(command: string, custom = false): Promise<void> {
   try {
     await sendThreadTerminalInput(activeSessionId.value, `${value}\r`)
   } catch (error) {
-    errorMessage.value = error instanceof Error ? error.message : 'Quick command failed'
+    errorMessage.value = terminalErrorText(error, 'Quick command failed')
     throw error
   }
 }
@@ -606,6 +606,16 @@ function asRecord(value: unknown): Record<string, unknown> | null {
 
 function readString(value: unknown): string {
   return typeof value === 'string' ? value : ''
+}
+
+function terminalErrorText(error: unknown, fallback: string): string {
+  if (error instanceof Error) return t(error.message)
+  if (typeof error === 'string') return t(error)
+  return t(fallback)
+}
+
+function terminalNotificationErrorText(message: string, fallback: string): string {
+  return t(message || fallback)
 }
 </script>
 
