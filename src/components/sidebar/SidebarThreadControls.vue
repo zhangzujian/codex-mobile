@@ -28,9 +28,11 @@
 
 <script setup lang="ts">
 import { useUiLanguage } from '../../composables/useUiLanguage'
-import IconTablerLayoutSidebar from '../icons/IconTablerLayoutSidebar.vue'
-import IconTablerLayoutSidebarFilled from '../icons/IconTablerLayoutSidebarFilled.vue'
-import IconTablerMessagePlus from '../icons/IconTablerMessagePlus.vue'
+import {
+  IconLayoutSidebar as IconTablerLayoutSidebar,
+  IconLayoutSidebarFilled as IconTablerLayoutSidebarFilled,
+  IconMessagePlus as IconTablerMessagePlus,
+} from '@tabler/icons-vue'
 
 defineProps<{
   isSidebarCollapsed: boolean

@@ -113,8 +113,10 @@ import { computed, onMounted, ref, watch } from 'vue'
 import { getProjectAutomationMap, getThreadAutomationMap } from '../../api/codexGateway'
 import { t } from '../../composables/useUiLanguage'
 import type { UiProjectGroup, UiThreadAutomation, UiThreadAutomationStatus } from '../../types/codex'
-import IconTablerBolt from '../icons/IconTablerBolt.vue'
-import IconTablerPlayerStopFilled from '../icons/IconTablerPlayerStopFilled.vue'
+import {
+  IconBolt as IconTablerBolt,
+  IconPlayerStopFilled as IconTablerPlayerStopFilled,
+} from '@tabler/icons-vue'
 
 const props = defineProps<{
   groups: UiProjectGroup[]

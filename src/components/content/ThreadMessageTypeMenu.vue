@@ -29,7 +29,7 @@
 <script setup lang="ts">
 import { onBeforeUnmount, ref } from 'vue'
 import { t } from '../../composables/useUiLanguage'
-import IconTablerSettings from '../icons/IconTablerSettings.vue'
+import { IconSettings as IconTablerSettings } from '@tabler/icons-vue'
 
 defineProps<{
   types: string[]

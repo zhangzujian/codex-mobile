@@ -18,8 +18,10 @@
 
 <script setup lang="ts">
 import { useUiLanguage } from '../../composables/useUiLanguage'
-import IconTablerFolder from '../icons/IconTablerFolder.vue'
-import IconTablerGitFork from '../icons/IconTablerGitFork.vue'
+import {
+  IconFolder as IconTablerFolder,
+  IconGitFork as IconTablerGitFork,
+} from '@tabler/icons-vue'
 
 type RuntimeMode = 'local' | 'worktree'
 

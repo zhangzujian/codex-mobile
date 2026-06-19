@@ -109,7 +109,7 @@
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useUiLanguage } from '../../composables/useUiLanguage'
-import IconTablerChevronDown from '../icons/IconTablerChevronDown.vue'
+import { IconChevronDown as IconTablerChevronDown } from '@tabler/icons-vue'
 
 export type SearchDropdownOption = {
   value: string

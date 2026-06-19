@@ -190,9 +190,11 @@
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import type { GitCommitFileChange, GitCommitOption, WorktreeBranchOption } from '../../api/codexGateway'
-import IconTablerChevronDown from '../icons/IconTablerChevronDown.vue'
-import IconTablerFilePencil from '../icons/IconTablerFilePencil.vue'
-import IconTablerGitFork from '../icons/IconTablerGitFork.vue'
+import {
+  IconChevronDown as IconTablerChevronDown,
+  IconFilePencil as IconTablerFilePencil,
+  IconGitFork as IconTablerGitFork,
+} from '@tabler/icons-vue'
 import { useFeedbackDiagnostics } from '../../composables/useFeedbackDiagnostics'
 import { t } from '../../composables/useUiLanguage'
 import { copyTextToClipboard } from '../../utils/clipboard'

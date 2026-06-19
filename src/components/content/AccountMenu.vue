@@ -2,7 +2,8 @@
   <div ref="rootRef" class="account-menu">
     <button class="account-menu-trigger" type="button" @click="isOpen = !isOpen">
       <span class="account-menu-trigger-label">{{ activeLabel }}</span>
-      <span class="account-menu-trigger-chevron">{{ isOpen ? '▴' : '▾' }}</span>
+      <IconChevronUp v-if="isOpen" class="account-menu-trigger-chevron" />
+      <IconChevronDown v-else class="account-menu-trigger-chevron" />
     </button>
 
     <div v-if="isOpen" class="account-menu-panel">
@@ -45,6 +46,7 @@
 
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import { IconChevronDown, IconChevronUp } from '@tabler/icons-vue'
 import { t } from '../../composables/useUiLanguage'
 import type { UiAccountEntry } from '../../types/codex'
 
@@ -115,7 +117,7 @@ onBeforeUnmount(() => {
 }
 
 .account-menu-trigger-chevron {
-  @apply text-xs text-zinc-500;
+  @apply h-3.5 w-3.5 text-zinc-500;
 }
 
 .account-menu-panel {

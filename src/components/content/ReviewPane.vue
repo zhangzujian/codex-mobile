@@ -349,7 +349,7 @@ import type {
   UiReviewFile,
   UiReviewHunk,
 } from '../../types/codex'
-import IconTablerX from '../icons/IconTablerX.vue'
+import { IconX as IconTablerX } from '@tabler/icons-vue'
 import ComposerDropdown from './ComposerDropdown.vue'
 
 const props = defineProps<{

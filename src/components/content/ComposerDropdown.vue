@@ -58,7 +58,7 @@
 
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch, type Component } from 'vue'
-import IconTablerChevronDown from '../icons/IconTablerChevronDown.vue'
+import { IconChevronDown as IconTablerChevronDown } from '@tabler/icons-vue'
 
 type DropdownOption = {
   value: string

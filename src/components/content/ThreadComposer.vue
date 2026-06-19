@@ -127,7 +127,7 @@
               >
                 {{ getMentionBadgeText(item.path) }}
               </span>
-              <span v-else-if="isMarkdownFile(item.path)" class="thread-composer-file-mention-icon-markdown">↓</span>
+              <IconTablerMarkdown v-else-if="isMarkdownFile(item.path)" class="thread-composer-file-mention-icon-markdown" />
               <IconTablerFilePencil v-else class="thread-composer-file-mention-icon-file" />
               <span class="thread-composer-file-mention-text">
                 <span class="thread-composer-file-mention-name">{{ getMentionFileName(item.path) }}</span>
@@ -415,14 +415,17 @@ import {
   type ComposerFileSuggestion,
   type ComposerPromptInfo,
 } from '../../api/codexGateway'
-import IconTablerArrowUp from '../icons/IconTablerArrowUp.vue'
-import IconTablerBolt from '../icons/IconTablerBolt.vue'
-import IconTablerFilePencil from '../icons/IconTablerFilePencil.vue'
-import IconTablerFolder from '../icons/IconTablerFolder.vue'
-import IconTablerMaximize from '../icons/IconTablerMaximize.vue'
-import IconTablerMicrophone from '../icons/IconTablerMicrophone.vue'
-import IconTablerMinimize from '../icons/IconTablerMinimize.vue'
-import IconTablerPlayerStopFilled from '../icons/IconTablerPlayerStopFilled.vue'
+import {
+  IconArrowUp as IconTablerArrowUp,
+  IconBolt as IconTablerBolt,
+  IconFilePencil as IconTablerFilePencil,
+  IconFolder as IconTablerFolder,
+  IconMarkdown as IconTablerMarkdown,
+  IconMaximize as IconTablerMaximize,
+  IconMicrophone as IconTablerMicrophone,
+  IconMinimize as IconTablerMinimize,
+  IconPlayerStopFilled as IconTablerPlayerStopFilled,
+} from '@tabler/icons-vue'
 import ComposerDropdown from './ComposerDropdown.vue'
 import ComposerSearchDropdown from './ComposerSearchDropdown.vue'
 
@@ -2076,7 +2079,7 @@ watch(
 }
 
 .thread-composer-file-mention-icon-markdown {
-  @apply inline-flex h-5 min-w-5 items-center justify-center text-sm leading-none text-zinc-700;
+  @apply h-4 w-4 text-zinc-700;
 }
 
 .thread-composer-file-mention-icon-file {

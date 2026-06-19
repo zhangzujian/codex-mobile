@@ -146,7 +146,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue'
-import IconTablerChevronRight from '../icons/IconTablerChevronRight.vue'
+import { IconChevronRight as IconTablerChevronRight } from '@tabler/icons-vue'
 import SkillCard from './SkillCard.vue'
 import SkillDetailModal, { type HubSkill } from './SkillDetailModal.vue'
 import { useGithubSkillsSync } from '../../composables/useGithubSkillsSync'

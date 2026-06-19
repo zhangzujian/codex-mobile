@@ -127,7 +127,8 @@
                       :title="isAccountsSectionCollapsed ? t('Expand accounts') : t('Collapse accounts')"
                       @click="toggleAccountsSectionCollapsed"
                     >
-                      <span class="sidebar-settings-account-collapse-icon">{{ isAccountsSectionCollapsed ? '▸' : '▾' }}</span>
+                      <IconTablerChevronRight v-if="isAccountsSectionCollapsed" class="sidebar-settings-account-collapse-icon" />
+                      <IconTablerChevronDown v-else class="sidebar-settings-account-collapse-icon" />
                     </button>
                     <span class="sidebar-settings-account-title">{{ t('Accounts') }}</span>
                     <span class="sidebar-settings-account-count">{{ accounts.length }}</span>
@@ -1218,11 +1219,15 @@ import ComposerDropdown from './components/content/ComposerDropdown.vue'
 import HeaderGitBranchDropdown from './components/content/HeaderGitBranchDropdown.vue'
 import ComposerRuntimeDropdown from './components/content/ComposerRuntimeDropdown.vue'
 import SidebarThreadControls from './components/sidebar/SidebarThreadControls.vue'
-import IconTablerBolt from './components/icons/IconTablerBolt.vue'
-import IconTablerSearch from './components/icons/IconTablerSearch.vue'
-import IconTablerSettings from './components/icons/IconTablerSettings.vue'
-import IconTablerTerminal from './components/icons/IconTablerTerminal.vue'
-import IconTablerX from './components/icons/IconTablerX.vue'
+import {
+  IconBolt as IconTablerBolt,
+  IconChevronDown as IconTablerChevronDown,
+  IconChevronRight as IconTablerChevronRight,
+  IconSearch as IconTablerSearch,
+  IconSettings as IconTablerSettings,
+  IconTerminal as IconTablerTerminal,
+  IconX as IconTablerX,
+} from '@tabler/icons-vue'
 import { useDesktopState } from './composables/useDesktopState'
 import { useMobile } from './composables/useMobile'
 import { useUiLanguage } from './composables/useUiLanguage'
@@ -5763,7 +5768,7 @@ async function loadWorktreeBranches(sourceCwd: string): Promise<void> {
 }
 
 .sidebar-settings-account-collapse-icon {
-  @apply text-[11px] leading-none;
+  @apply h-3 w-3;
 }
 
 .sidebar-settings-account-title {

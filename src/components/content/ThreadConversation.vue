@@ -238,7 +238,7 @@
 
               <div v-if="message.fileAttachments && message.fileAttachments.length > 0" class="message-file-attachments">
                 <span v-for="att in message.fileAttachments" :key="`${message.id}:${att.path}`" class="message-file-chip">
-                  <span class="message-file-chip-icon">📄</span>
+                  <IconTablerFile class="message-file-chip-icon" />
                   <a
                     class="message-file-link message-file-chip-name"
                     :href="toBrowseUrl(att.path)"
@@ -940,12 +940,15 @@ import { copyTextToClipboard, copyTextWithSelectionFallback } from '../../utils/
 import { stripCommandOutputControlSequences } from './commandOutputText'
 import { buildTerminalFontFamily } from './terminalFonts'
 
-import IconTablerArrowBackUp from '../icons/IconTablerArrowBackUp.vue'
-import IconTablerArrowUp from '../icons/IconTablerArrowUp.vue'
-import IconTablerCopy from '../icons/IconTablerCopy.vue'
-import IconTablerFilePencil from '../icons/IconTablerFilePencil.vue'
-import IconTablerGitFork from '../icons/IconTablerGitFork.vue'
-import IconTablerX from '../icons/IconTablerX.vue'
+import {
+  IconArrowBackUp as IconTablerArrowBackUp,
+  IconArrowUp as IconTablerArrowUp,
+  IconCopy as IconTablerCopy,
+  IconFile as IconTablerFile,
+  IconFilePencil as IconTablerFilePencil,
+  IconGitFork as IconTablerGitFork,
+  IconX as IconTablerX,
+} from '@tabler/icons-vue'
 
 type HighlightJsModule = (typeof import('highlight.js/lib/common'))['default']
 
@@ -4873,7 +4876,7 @@ onBeforeUnmount(() => {
 }
 
 .message-file-chip-icon {
-  @apply text-[10px] leading-none;
+  @apply h-3.5 w-3.5 shrink-0;
 }
 
 .message-file-chip-name {

@@ -889,16 +889,17 @@ import {
   upsertThreadAutomation,
 } from '../../api/codexGateway'
 import type { UiProjectGroup, UiThread, UiThreadAutomation, UiThreadAutomationStatus } from '../../types/codex'
-import IconTablerChevronDown from '../icons/IconTablerChevronDown.vue'
-import IconTablerChevronRight from '../icons/IconTablerChevronRight.vue'
-import IconTablerDots from '../icons/IconTablerDots.vue'
-import IconTablerFilePencil from '../icons/IconTablerFilePencil.vue'
-import IconTablerFolder from '../icons/IconTablerFolder.vue'
-import IconTablerFolderOpen from '../icons/IconTablerFolderOpen.vue'
-import IconTablerGitFork from '../icons/IconTablerGitFork.vue'
-import IconTablerBolt from '../icons/IconTablerBolt.vue'
-import IconTablerTrash from '../icons/IconTablerTrash.vue'
-import IconTablerMessagePlus from '../icons/IconTablerMessagePlus.vue'
+import {
+  IconBolt as IconTablerBolt,
+  IconChevronDown as IconTablerChevronDown,
+  IconChevronRight as IconTablerChevronRight,
+  IconDots as IconTablerDots,
+  IconFolder as IconTablerFolder,
+  IconFolderOpen as IconTablerFolderOpen,
+  IconGitFork as IconTablerGitFork,
+  IconMessagePlus as IconTablerMessagePlus,
+  IconTrash as IconTablerTrash,
+} from '@tabler/icons-vue'
 import { useUiLanguage } from '../../composables/useUiLanguage'
 import { useFeedbackDiagnostics } from '../../composables/useFeedbackDiagnostics'
 import { getPathLeafName, getPathParent, isAbsoluteLikePath, isProjectlessChatPath } from '../../pathUtils.js'

@@ -22,23 +22,15 @@
         :aria-label="t('Drag to reorder queued message')"
         :title="t('Drag to reorder queued message')"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" aria-hidden="true">
-          <path fill="currentColor" d="M9 5.5A1.5 1.5 0 1 1 6 5.5a1.5 1.5 0 0 1 3 0m0 6.5a1.5 1.5 0 1 1-3 0a1.5 1.5 0 0 1 3 0m-1.5 8A1.5 1.5 0 1 0 7.5 17a1.5 1.5 0 0 0 0 3m10-13A1.5 1.5 0 1 0 17.5 4a1.5 1.5 0 0 0 0 3m1.5 5a1.5 1.5 0 1 1-3 0a1.5 1.5 0 0 1 3 0m-1.5 8a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3" />
-        </svg>
+        <IconGripVertical />
       </button>
-      <svg class="queued-row-icon" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" aria-hidden="true">
-        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-          d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-      </svg>
+      <IconMessage class="queued-row-icon" />
       <span class="queued-row-text">{{ getMessagePreview(msg) }}</span>
       <div class="queued-row-actions">
         <button class="queued-row-edit" type="button" :title="t('Edit queued message')" @click="$emit('edit', msg.id)">{{ t('Edit') }}</button>
         <button class="queued-row-steer" type="button" :title="t('Send now without interrupting work')" @click="$emit('steer', msg.id)">{{ t('Steer') }}</button>
         <button class="queued-row-delete" type="button" :aria-label="t('Delete queued message')" :title="t('Delete queued message')" @click="$emit('delete', msg.id)">
-          <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" aria-hidden="true">
-            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M4 7h16M10 11v6M14 11v6M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-12M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3" />
-          </svg>
+          <IconTrash />
         </button>
       </div>
     </div>
@@ -48,6 +40,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { IconGripVertical, IconMessage, IconTrash } from '@tabler/icons-vue'
 import { useUiLanguage } from '../../composables/useUiLanguage'
 
 type QueuedMessageRow = {

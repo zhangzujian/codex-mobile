@@ -92,7 +92,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import { useUiLanguage } from '../../composables/useUiLanguage'
-import IconTablerX from '../icons/IconTablerX.vue'
+import { IconX as IconTablerX } from '@tabler/icons-vue'
 
 export type HubSkill = {
   name: string

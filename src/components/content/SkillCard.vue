@@ -45,7 +45,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useUiLanguage } from '../../composables/useUiLanguage'
-import IconTablerFolder from '../icons/IconTablerFolder.vue'
+import { IconFolder as IconTablerFolder } from '@tabler/icons-vue'
 
 const props = withDefaults(defineProps<{
   skill: {
