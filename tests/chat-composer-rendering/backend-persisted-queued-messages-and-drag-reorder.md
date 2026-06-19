@@ -13,14 +13,16 @@ Queued messages are saved through the backend, survive page refresh, and can be 
 1. In light theme, confirm each queued row has a drag handle at the start of the row
 2. Refresh the page and reopen the same thread
 3. Confirm all queued rows are still visible in the same order
-4. Drag the third queued message onto the first queued message
-5. Confirm the third message moves to the first position and the remaining queued messages keep their relative order
-6. Refresh again and confirm the reordered queue order is preserved
-7. Let the active turn finish and confirm the next sent queued message is the first reordered item
-8. Queue at least two more messages, switch to dark theme, and repeat the drag reorder check
+4. Confirm the queued-message panel is directly joined to the composer or pending-request panel below it with no visible blank gap between borders
+5. Drag the third queued message onto the first queued message
+6. Confirm the third message moves to the first position and the remaining queued messages keep their relative order
+7. Refresh again and confirm the reordered queue order is preserved
+8. Let the active turn finish and confirm the next sent queued message is the first reordered item
+9. Queue at least two more messages, switch to dark theme, and repeat the joined-border and drag reorder checks
 
 #### Expected Results
 - Queued rows survive a page refresh because they are restored from backend state
+- The queued-message panel and composer or pending-request panel below it share a continuous border with no blank seam in both light theme and dark theme
 - Dragging a queued row onto another queued row immediately reorders the queue
 - The reordered queue order survives page refresh
 - The reordered queue order controls which message sends next after the active turn finishes

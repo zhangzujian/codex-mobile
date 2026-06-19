@@ -6,6 +6,10 @@ function readComponent(name: string): string {
   return readFileSync(resolve(__dirname, name), 'utf8')
 }
 
+function readAppSource(): string {
+  return readFileSync(resolve(__dirname, '../../App.vue'), 'utf8')
+}
+
 describe('chat bottom UX layout', () => {
   it('renders live activity outside the scrollable message list', () => {
     const source = readComponent('ThreadConversation.vue')
@@ -36,5 +40,18 @@ describe('chat bottom UX layout', () => {
     expect(expandIndex).toBeLessThan(inputWrapStart)
     expect(expandIndex).toBeLessThan(inputWrapEnd)
     expect(source).not.toContain('absolute right-0.5 top-0.5')
+  })
+
+  it('joins queued messages directly to the composer or pending request border', () => {
+    const source = readAppSource()
+    const composerStackRule = source.match(/\.composer-with-queue\s*\{[\s\S]*?\n\}/u)?.[0] ?? ''
+    const zeroQueueGapRule = source.match(
+      /\.composer-with-queue\s*>\s*\.queued-messages\s*\+\s*\.thread-composer,[\s\S]*?\.composer-with-queue\s*>\s*\.queued-messages\s*\+\s*\.thread-pending-request\s*\{[\s\S]*?\n\}/u,
+    )?.[0] ?? ''
+
+    expect(composerStackRule).not.toContain('gap-2')
+    expect(zeroQueueGapRule).toContain('.composer-with-queue > .queued-messages + .thread-composer')
+    expect(zeroQueueGapRule).toContain('.composer-with-queue > .queued-messages + .thread-pending-request')
+    expect(zeroQueueGapRule).toMatch(/margin-top:\s*0/u)
   })
 })

@@ -1055,7 +1055,7 @@
                     v-if="selectedThreadPendingRequest"
                     :request="selectedThreadPendingRequest"
                     :request-count="selectedThreadServerRequests.length"
-                    :has-queue-above="selectedThreadQueuedMessages.length > 0"
+                    :has-queue-above="selectedThreadQueuedMessages.length > 0 && !selectedThreadTerminalOpen"
                     @respond-server-request="onRespondServerRequest"
                   />
                   <ThreadComposer
@@ -1076,7 +1076,7 @@
                     :is-turn-in-progress="isSelectedThreadInProgress"
                     :is-stop-pending="isSelectedThreadInterruptPending"
                     :is-interrupting-turn="isInterruptingTurn"
-                    :has-queue-above="selectedThreadQueuedMessages.length > 0"
+                    :has-queue-above="selectedThreadQueuedMessages.length > 0 && !selectedThreadTerminalOpen"
                     :send-with-enter="sendWithEnter" :in-progress-submit-mode="inProgressSendMode"
                     :dictation-click-to-toggle="dictationClickToToggle" :dictation-auto-send="dictationAutoSend"
                     :dictation-language="dictationLanguage"
@@ -5190,8 +5190,16 @@ async function loadWorktreeBranches(sourceCwd: string): Promise<void> {
 }
 
 .content-root.is-virtual-keyboard-open .composer-with-queue {
-  gap: 0.375rem;
   padding-bottom: max(0.25rem, env(safe-area-inset-bottom));
+}
+
+.content-root.is-virtual-keyboard-open .composer-with-queue > * + * {
+  margin-top: 0.375rem;
+}
+
+.content-root.is-virtual-keyboard-open .composer-with-queue > .queued-messages + .thread-composer,
+.content-root.is-virtual-keyboard-open .composer-with-queue > .queued-messages + .thread-pending-request {
+  margin-top: 0;
 }
 
 .content-root.is-virtual-keyboard-open .content-thread-terminal-panel {
@@ -5221,7 +5229,16 @@ async function loadWorktreeBranches(sourceCwd: string): Promise<void> {
 }
 
 .composer-with-queue {
-  @apply w-full shrink-0 px-2 sm:px-6 flex flex-col gap-2;
+  @apply w-full shrink-0 px-2 sm:px-6 flex flex-col;
+}
+
+.composer-with-queue > * + * {
+  @apply mt-2;
+}
+
+.composer-with-queue > .queued-messages + .thread-composer,
+.composer-with-queue > .queued-messages + .thread-pending-request {
+  margin-top: 0;
 }
 
 .composer-runtime-error {
