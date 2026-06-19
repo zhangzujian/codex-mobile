@@ -79,12 +79,17 @@ describe('UI language translations', () => {
       { file: 'src/components/content/ThreadConversation.vue', snippet: ": 'Copy response'" },
       { file: 'src/components/content/ThreadConversation.vue', snippet: "? 'Copied'" },
       { file: 'src/components/content/ThreadConversation.vue', snippet: ": 'Copy'" },
+      { file: 'src/components/content/ReviewPane.vue', snippet: "return 'Added'" },
+      { file: 'src/components/content/ReviewPane.vue', snippet: "return 'Deleted'" },
+      { file: 'src/components/content/ReviewPane.vue', snippet: "return 'Renamed'" },
+      { file: 'src/components/content/ReviewPane.vue', snippet: "return 'Modified'" },
     ]
     const hardcodedPatterns: Array<{ file: string; pattern: RegExp; label: string }> = [
       { file: 'src/components/sidebar/SidebarThreadTree.vue', pattern: />\s*Browse files\s*</u, label: 'Browse files text node' },
       { file: 'src/components/sidebar/SidebarThreadTree.vue', pattern: />\s*Copy path\s*</u, label: 'Copy path text node' },
       { file: 'src/components/sidebar/SidebarThreadTree.vue', pattern: />\s*Show more\s*</u, label: 'Show more text node' },
       { file: 'src/components/sidebar/SidebarThreadTree.vue', pattern: />\s*Show less\s*</u, label: 'Show less text node' },
+      { file: 'src/components/sidebar/SidebarThreadTree.vue', pattern: />\s*Remove\s*</u, label: 'Remove text node' },
     ]
 
     const remaining = hardcodedSnippets.filter(({ file, snippet }) => readSource(file).includes(snippet))

@@ -10,8 +10,10 @@
 2. Verify command label text, grouped command label text, and status text in collapsed rows.
 3. Locate a file-change summary row (for example: `▶ 2 files changed · 2 edited`) and verify the chevron and summary text are readable.
 4. Expand a command row to show output and inspect the output panel border contrast.
-5. Confirm status colors for running/success/error command rows are distinguishable in dark mode.
-6. Toggle back to `Light` theme and confirm command rows still use the existing light styling.
+5. If the command output includes ANSI SGR sequences such as dim/reset styling, confirm the output text does not show raw `ESC[` or replacement-character `�[` fragments.
+6. Open Settings, set `Terminal font` to an installed font such as `MesloLGS NF` or `JetBrainsMono Nerd Font Mono`, and confirm expanded command output uses the same configured terminal font family.
+7. Confirm status colors for running/success/error command rows are distinguishable in dark mode.
+8. Toggle back to `Light` theme and confirm command rows still use the existing light styling.
 
 #### Expected Results
 - Command labels and grouped command labels are readable against dark row backgrounds.
@@ -19,6 +21,8 @@
 - Default status text is readable in dark mode.
 - Running/success/error status colors remain visible in dark mode.
 - Expanded command output border is visible without using a bright light-theme border.
+- Expanded command output strips raw ANSI control sequences from visible text.
+- Expanded command output follows the configured terminal font preference.
 - Light theme command row styling is unchanged.
 
 #### Rollback/Cleanup

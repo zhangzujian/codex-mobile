@@ -720,10 +720,10 @@ function treeFileIndentStyle(): Record<string, string> {
 }
 
 function formatOperation(operation: string): string {
-  if (operation === 'add') return 'Added'
-  if (operation === 'delete') return 'Deleted'
-  if (operation === 'rename') return 'Renamed'
-  return 'Modified'
+  if (operation === 'add') return t('Added')
+  if (operation === 'delete') return t('Deleted')
+  if (operation === 'rename') return t('Renamed')
+  return t('Modified')
 }
 
 function extractNotificationThreadId(notification: RpcNotification): string {

@@ -75,7 +75,8 @@
                       <pre
                         class="cmd-output"
                         :class="{ 'cmd-output-condensed': isCommandOutputCondensed(cmd) }"
-                        v-text="cmd.commandExecution?.aggregatedOutput || t('(no output)')"
+                        :style="commandOutputStyle"
+                        v-text="formatCommandOutputText(cmd.commandExecution?.aggregatedOutput)"
                       ></pre>
                     </div>
                   </div>
@@ -107,7 +108,8 @@
                   <pre
                     class="cmd-output"
                     :class="{ 'cmd-output-condensed': isCommandOutputCondensed(message) }"
-                    v-text="message.commandExecution?.aggregatedOutput || t('(no output)')"
+                    :style="commandOutputStyle"
+                    v-text="formatCommandOutputText(message.commandExecution?.aggregatedOutput)"
                   ></pre>
                 </div>
               </div>
@@ -304,7 +306,8 @@
                           <pre
                             class="cmd-output"
                             :class="{ 'cmd-output-condensed': isCommandOutputCondensed(cmd) }"
-                            v-text="cmd.commandExecution?.aggregatedOutput || t('(no output)')"
+                            :style="commandOutputStyle"
+                            v-text="formatCommandOutputText(cmd.commandExecution?.aggregatedOutput)"
                           ></pre>
                         </div>
                       </div>
@@ -934,6 +937,8 @@ import { useFeedbackDiagnostics } from '../../composables/useFeedbackDiagnostics
 import { useMobile } from '../../composables/useMobile'
 import { t } from '../../composables/useUiLanguage'
 import { copyTextToClipboard, copyTextWithSelectionFallback } from '../../utils/clipboard'
+import { stripCommandOutputControlSequences } from './commandOutputText'
+import { buildTerminalFontFamily } from './terminalFonts'
 
 import IconTablerArrowBackUp from '../icons/IconTablerArrowBackUp.vue'
 import IconTablerArrowUp from '../icons/IconTablerArrowUp.vue'
@@ -1167,6 +1172,15 @@ function isCommandOutputCondensed(message: UiMessage): boolean {
   return isCommandMessage(message) && (isLiveTurnRuntime.value || message.commandExecution?.status === 'inProgress')
 }
 
+function formatCommandOutputText(output?: string): string {
+  if (!output) return t('(no output)')
+  const cached = commandOutputDisplayCache.get(output)
+  if (cached !== undefined) return cached || t('(no output)')
+  const formatted = stripCommandOutputControlSequences(output)
+  setBoundedCacheEntry(commandOutputDisplayCache, output, formatted, COMMAND_OUTPUT_CACHE_LIMIT)
+  return formatted || t('(no output)')
+}
+
 function toggleCommandExpand(message: UiMessage): void {
   if (!isCommandMessage(message)) return
 
@@ -1327,6 +1341,7 @@ const props = defineProps<{
   hasMorePersistedAbove?: boolean
   isLoadingPersistedAbove?: boolean
   loadEarlierMessages?: (threadId: string) => Promise<void>
+  terminalFontPreference?: string
 }>()
 
 const emit = defineEmits<{
@@ -1347,7 +1362,12 @@ const toolQuestionAnswers = ref<Record<string, string>>({})
 const toolQuestionOtherAnswers = ref<Record<string, string>>({})
 const mcpElicitationAnswers = ref<Record<string, string | number | boolean | string[]>>({})
 const autoFollowOutput = ref(true)
+const commandOutputDisplayCache = new Map<string, string>()
+const COMMAND_OUTPUT_CACHE_LIMIT = 160
 const BOTTOM_THRESHOLD_PX = 80
+const commandOutputStyle = computed(() => ({
+  fontFamily: buildTerminalFontFamily(props.terminalFontPreference ?? ''),
+}))
 const CODE_LANGUAGE_ALIASES: Record<string, string> = {
   js: 'javascript',
   jsx: 'jsx',
@@ -4340,6 +4360,7 @@ function clearRenderCaches(): void {
   inlineSegmentCache.clear()
   markdownHtmlCache.clear()
   highlightHtmlCache.clear()
+  commandOutputDisplayCache.clear()
 }
 
 watch(

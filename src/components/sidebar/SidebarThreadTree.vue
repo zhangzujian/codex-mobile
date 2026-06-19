@@ -356,7 +356,7 @@
                         type="button"
                         @click="onRemoveProject(group.projectName)"
                       >
-                        Remove
+                        {{ t('Remove') }}
                       </button>
                     </template>
                     <template v-else>
@@ -849,7 +849,7 @@
               :disabled="isSavingAutomation || isRunningAutomation"
               @click="onRunAutomationFromDialog"
             >
-              {{ isRunningAutomation ? 'Running…' : 'Run now' }}
+              {{ isRunningAutomation ? t('Running…') : t('Run now') }}
             </button>
             <button
               v-if="automationDialogMode === 'edit'"
@@ -858,13 +858,13 @@
               :disabled="isSavingAutomation || isRunningAutomation"
               @click="onDeleteAutomationFromDialog"
             >
-              Remove
+              {{ t('Remove') }}
             </button>
             <button class="rename-thread-button" type="button" :disabled="isSavingAutomation || isRunningAutomation" @click="closeAutomationDialog">
               {{ t('Cancel') }}
             </button>
             <button class="rename-thread-button rename-thread-button-primary" type="button" :disabled="isSavingAutomation || isRunningAutomation" @click="submitAutomationDialog">
-              {{ isSavingAutomation ? 'Saving…' : 'Save' }}
+              {{ isSavingAutomation ? t('Saving…') : t('Save') }}
             </button>
           </div>
         </div>

@@ -67,6 +67,8 @@ const zhCN: Record<string, string> = {
   'Allowed Telegram user IDs': '允许的 Telegram 用户 ID',
   'Put one Telegram user ID per line or separate them with commas. Use `*` to allow all Telegram users. Unauthorized users will see their own ID in the rejection message so they can copy it here.': '每行填写一个 Telegram 用户 ID，或用逗号分隔。使用 `*` 可允许所有 Telegram 用户。未授权用户会在拒绝消息中看到自己的 ID，方便复制到这里。',
   'Saving…': '保存中…',
+  'Running…': '运行中…',
+  'Run now': '立即运行',
   'Save Telegram config': '保存 Telegram 配置',
   'Context': '上下文',
   'Worktree name and version': '工作树名称和版本',
