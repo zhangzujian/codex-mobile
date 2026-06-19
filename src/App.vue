@@ -562,13 +562,25 @@
             </span>
           </template>
           <template #actions>
+            <button
+              v-if="canShowTerminalDirectToggle"
+              class="content-header-terminal-command content-header-terminal-button"
+              :class="{ 'is-open': isComposerTerminalOpen }"
+              type="button"
+              :aria-pressed="isComposerTerminalOpen"
+              :aria-label="terminalToggleLabel"
+              :title="terminalToggleLabel"
+              @click="toggleComposerTerminal"
+            >
+              <IconTablerTerminal class="content-header-terminal-button-icon" />
+            </button>
             <ComposerDropdown
-              v-if="canShowTerminalToggle"
+              v-if="canShowTerminalQuickCommandDropdown"
               class="content-header-terminal-command"
               :class="{ 'is-open': isComposerTerminalOpen }"
               :model-value="terminalHeaderDropdownValue"
               :options="terminalHeaderDropdownOptions"
-              :placeholder="terminalCommandPlaceholder"
+              :placeholder="terminalHeaderDropdownPlaceholder"
               :selected-prefix-icon="IconTablerTerminal"
               :icon-only="true"
               menu-align="end"
@@ -1813,6 +1825,8 @@ const canShowTerminalToggle = computed(() => (
     (route.name === 'thread' && selectedThreadId.value.length > 0)
   )
 ))
+const canShowTerminalDirectToggle = computed(() => canShowTerminalToggle.value)
+const canShowTerminalQuickCommandDropdown = computed(() => canShowTerminalToggle.value && terminalHeaderQuickCommands.value.length > 0)
 const canShowContentHeaderBranchDropdown = computed(() => (
   (route.name === 'thread' && selectedThreadId.value.length > 0) ||
   (isHomeRoute.value && isNewThreadCwdGitRepo.value)
@@ -2106,8 +2120,11 @@ const terminalShortcutLabel = computed(() => {
   }
   return 'Ctrl+J'
 })
-const terminalCommandPlaceholder = computed(() => (
-  isComposerTerminalOpen.value ? t('Terminal') : t('Open terminal')
+const terminalToggleLabel = computed(() => (
+  isComposerTerminalOpen.value ? t('Hide terminal') : t('Open terminal')
+))
+const terminalHeaderDropdownPlaceholder = computed(() => (
+  isComposerTerminalOpen.value ? t('Terminal') : t('Run...')
 ))
 const terminalFontInputStyle = computed(() => ({
   fontFamily: buildTerminalFontFamily(terminalFontPreferenceDraft.value),
@@ -2129,7 +2146,7 @@ const terminalHeaderQuickCommands = computed<TerminalHeaderQuickCommand[]>(() =>
     .sort(compareTerminalQuickCommands)
 })
 const terminalHeaderDropdownOptions = computed(() => [
-  { label: isComposerTerminalOpen.value ? t('Hide terminal') : t('Open terminal'), value: TOGGLE_TERMINAL_COMMAND_VALUE },
+  { label: terminalToggleLabel.value, value: TOGGLE_TERMINAL_COMMAND_VALUE },
   ...terminalHeaderQuickCommands.value.map((command) => ({ label: command.label, value: command.value })),
 ])
 const contentStyle = computed(() => {
@@ -5231,11 +5248,23 @@ async function loadWorktreeBranches(sourceCwd: string): Promise<void> {
   @apply h-8 rounded-full border border-zinc-200 bg-white px-3 text-xs text-zinc-700 outline-none transition hover:bg-zinc-50 focus:border-zinc-300;
 }
 
+.content-header-terminal-button {
+  @apply inline-flex h-8 items-center justify-center rounded-full border border-zinc-200 bg-white px-2.5 py-1.5 text-xs text-zinc-700 outline-none transition hover:bg-zinc-50 focus:border-zinc-300;
+}
+
+.content-header-terminal-button-icon {
+  @apply h-4 w-4 text-zinc-600;
+}
+
 .content-header-terminal-command :deep(.composer-dropdown-prefix-icon) {
   @apply h-4 w-4 text-zinc-500;
 }
 
 .content-header-terminal-command.is-open :deep(.composer-dropdown-trigger) {
+  @apply border-zinc-300 bg-zinc-100 text-zinc-950;
+}
+
+.content-header-terminal-button.is-open {
   @apply border-zinc-300 bg-zinc-100 text-zinc-950;
 }
 

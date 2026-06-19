@@ -73,6 +73,7 @@ const zhCN: Record<string, string> = {
   'Settings': '设置',
   'Toggle terminal': '切换终端',
   'Open terminal': '打开终端',
+  'Run...': '运行...',
   'Terminal command': '终端命令',
   'No commands': '没有命令',
   '(command)': '（命令）',

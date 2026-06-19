@@ -17,7 +17,7 @@ Each local/worktree thread has an integrated xterm terminal that can be toggled 
 6. Confirm the printed path matches the thread/project working directory
 7. Run `echo terminal-ok`
 8. Confirm `terminal-ok` appears in the xterm output
-9. Choose `npm run dev` from the `Run...` quick-command menu
+9. If the `Run...` quick-command menu is visible next to the terminal button, choose `npm run dev`
 10. Confirm the command is submitted to the active terminal
 11. Fetch `/codex-api/thread-terminal-snapshot?threadId=<thread-id>`
 12. Confirm the JSON `session.buffer` contains `terminal-ok`
@@ -45,6 +45,7 @@ Each local/worktree thread has an integrated xterm terminal that can be toggled 
 
 #### Expected Results
 - The terminal button shows a pressed state when the drawer is open
+- Clicking the terminal button directly opens or hides the drawer; users do not need to open the `Run...` menu first
 - The terminal is scoped to the selected thread working directory
 - The terminal button is also available on new-chat when a working folder is selected
 - New-chat terminal sessions use the selected folder before a thread exists
@@ -52,7 +53,7 @@ Each local/worktree thread has an integrated xterm terminal that can be toggled 
 - The terminal resizes without clipping the prompt
 - The snapshot endpoint returns `{ session: { cwd, shell, buffer, truncated } }` while a session exists
 - The quick-command menu sends common project commands such as `npm run dev` into the current PTY
-- The terminal open/hide action is the first item in the `Run...` menu
+- The terminal open/hide action remains available from the `Run...` menu when quick commands are present
 - The `Run...` menu shows discovered project commands in usage order and scrolls when the list is longer than the visible menu
 - `New` adds another tab without killing the previous PTY
 - `Close` terminates the active PTY and hides the drawer only after the last tab is closed
