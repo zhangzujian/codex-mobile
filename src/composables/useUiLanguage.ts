@@ -767,7 +767,7 @@ const zhCN: Record<string, string> = {
   'Failed to update file changes.': '更新文件更改失败。',
   'Moved + edited': '已移动并编辑',
   'Moved': '已移动',
-  'Edited': '已编辑',
+  'Edited': '修改',
   'Modified files': '已修改文件',
   '1 file changed': '1 个文件已更改',
   '{count} files changed': '{count} 个文件已更改',

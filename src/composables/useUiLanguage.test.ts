@@ -22,12 +22,15 @@ function walkSourceFiles(dir: string, files: string[] = []): string[] {
   return files
 }
 
-function extractZhCNKeys(): Set<string> {
+function extractZhCN(): Record<string, string> {
   const source = readSource('src/composables/useUiLanguage.ts')
   const match = source.match(/const zhCN: Record<string, string> = (\{[\s\S]*?\n\})\n\nconst LANGUAGE_LABELS/u)
   if (!match) throw new Error('Could not find zhCN translation table')
-  const zhCN = Function(`return (${match[1]})`)() as Record<string, string>
-  return new Set(Object.keys(zhCN))
+  return Function(`return (${match[1]})`)() as Record<string, string>
+}
+
+function extractZhCNKeys(): Set<string> {
+  return new Set(Object.keys(extractZhCN()))
 }
 
 function unquote(raw: string): string {
@@ -183,6 +186,12 @@ describe('UI language translations', () => {
       'Undo file changes from this turn',
       'Redo file changes from this turn',
     ].filter((key) => !zhCNKeys.has(key))).toEqual([])
+  })
+
+  it('uses concise Simplified Chinese wording for file-change operation labels', () => {
+    const zhCN = extractZhCN()
+
+    expect(zhCN.Edited).toBe('修改')
   })
 
   it('routes terminal error messages through the UI translator before rendering', () => {
