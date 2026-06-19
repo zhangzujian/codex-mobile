@@ -82,6 +82,20 @@
         </span>
       </div>
 
+      <div v-if="hasExpandedComposerToggle" class="thread-composer-input-toolbar">
+        <button
+          class="thread-composer-expand"
+          type="button"
+          :aria-label="isComposerExpanded ? t('Exit full screen composer') : t('Expand composer')"
+          :title="isComposerExpanded ? t('Exit full screen composer') : t('Expand composer')"
+          :disabled="isInteractionDisabled"
+          @click="toggleComposerExpanded"
+        >
+          <IconTablerMinimize v-if="isComposerExpanded" class="thread-composer-expand-icon" />
+          <IconTablerMaximize v-else class="thread-composer-expand-icon" />
+        </button>
+      </div>
+
       <div
         class="thread-composer-input-wrap"
         :class="{
@@ -133,18 +147,6 @@
           @keydown="onInputKeydown"
           @paste="onInputPaste"
         />
-        <button
-          v-if="hasExpandedComposerToggle"
-          class="thread-composer-expand"
-          type="button"
-          :aria-label="isComposerExpanded ? t('Exit full screen composer') : t('Expand composer')"
-          :title="isComposerExpanded ? t('Exit full screen composer') : t('Expand composer')"
-          :disabled="isInteractionDisabled"
-          @click="toggleComposerExpanded"
-        >
-          <IconTablerMinimize v-if="isComposerExpanded" class="thread-composer-expand-icon" />
-          <IconTablerMaximize v-else class="thread-composer-expand-icon" />
-        </button>
       </div>
 
       <div
@@ -1919,7 +1921,7 @@ watch(
 }
 
 .thread-composer-attachment-remove {
-  @apply absolute right-0.5 top-0.5 inline-flex h-4 w-4 items-center justify-center rounded-full border-0 bg-black/70 text-xs leading-none text-white;
+  @apply absolute top-0.5 right-0.5 inline-flex h-4 w-4 items-center justify-center rounded-full border-0 bg-black/70 text-xs leading-none text-white;
 }
 
 .thread-composer-file-chips {
@@ -2033,6 +2035,10 @@ watch(
   @apply rounded-xl bg-zinc-50;
 }
 
+.thread-composer-input-toolbar {
+  @apply -mt-1 mb-1 flex justify-end;
+}
+
 .thread-composer-drop-overlay {
   @apply pointer-events-none absolute inset-0 z-30 flex items-center justify-center rounded-xl border border-dashed border-zinc-900 bg-white/90;
 }
@@ -2094,11 +2100,11 @@ watch(
 }
 
 .thread-composer-input {
-  @apply w-full min-w-0 min-h-10 sm:min-h-11 max-h-40 rounded-xl border-0 bg-transparent px-1 py-2 pr-10 text-sm text-zinc-900 outline-none transition resize-none overflow-y-auto;
+  @apply w-full min-w-0 min-h-10 sm:min-h-11 max-h-40 rounded-xl border-0 bg-transparent px-1 py-2 text-sm text-zinc-900 outline-none transition resize-none overflow-y-auto;
 }
 
 .thread-composer-input-wrap--expanded .thread-composer-input {
-  @apply h-full max-h-none pr-12 text-base leading-6;
+  @apply h-full max-h-none text-base leading-6;
 }
 
 .thread-composer-input:focus {
@@ -2110,7 +2116,7 @@ watch(
 }
 
 .thread-composer-expand {
-  @apply absolute right-0.5 top-0.5 inline-flex h-8 w-8 items-center justify-center rounded-full border-0 bg-zinc-100 text-zinc-500 shadow-sm transition hover:bg-zinc-200 hover:text-zinc-900 disabled:cursor-not-allowed disabled:text-zinc-400;
+  @apply inline-flex h-8 w-8 items-center justify-center rounded-full border-0 bg-zinc-100 text-zinc-500 shadow-sm transition hover:bg-zinc-200 hover:text-zinc-900 disabled:cursor-not-allowed disabled:text-zinc-400;
 }
 
 .thread-composer-expand-icon {

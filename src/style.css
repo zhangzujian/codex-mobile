@@ -715,6 +715,22 @@
   @apply text-zinc-500;
 }
 
+:root.dark .conversation-status-bar {
+  @apply border-zinc-700 bg-zinc-800/95 text-zinc-300 shadow-zinc-950/30;
+}
+
+:root.dark .conversation-status-label {
+  @apply text-zinc-200;
+}
+
+:root.dark .conversation-status-detail {
+  @apply text-zinc-400;
+}
+
+:root.dark .jump-to-latest-button {
+  @apply border-zinc-700 bg-zinc-800/95 text-zinc-300 shadow-zinc-950/30 hover:bg-zinc-700 hover:text-white;
+}
+
 :root.dark .live-overlay-label {
   @apply text-zinc-400;
 }

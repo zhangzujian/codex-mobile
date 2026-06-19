@@ -732,38 +732,48 @@
         </div>
       </li>
       </template>
-      <li v-if="liveOverlay" class="conversation-item conversation-item-overlay">
-        <div class="message-row">
-          <div class="message-stack">
-            <article class="live-overlay-inline" aria-live="polite">
-              <p class="live-overlay-label">{{ liveOverlay.activityLabel }}</p>
-              <p
-                v-if="liveOverlay.reasoningText"
-                class="live-overlay-reasoning"
-              >
-                {{ liveOverlay.reasoningText }}
-              </p>
-              <div v-if="liveOverlay.errorText" class="live-overlay-error">
-                <span>{{ liveOverlay.errorText }}</span>
-                <a class="live-overlay-feedback" :href="feedbackMailto" @click="prepareLiveErrorFeedback($event, liveOverlay.errorText)">Send feedback</a>
-              </div>
-            </article>
-          </div>
-        </div>
-      </li>
+      <li
+        v-if="liveOverlay || showJumpToLatestButton"
+        class="conversation-bottom-tray-spacer"
+        aria-hidden="true"
+      />
       <li ref="bottomAnchorRef" class="conversation-bottom-anchor" />
     </ul>
 
-    <button
-      v-if="showJumpToLatestButton"
-      type="button"
-      class="jump-to-latest-button"
-      title="Jump to latest"
-      aria-label="Jump to latest output"
-      @click="jumpToLatest"
-    >
-      <IconTablerArrowUp class="icon-svg jump-to-latest-icon" />
-    </button>
+    <div v-if="liveOverlay || showJumpToLatestButton" class="conversation-bottom-tray">
+      <article
+        v-if="liveOverlay"
+        class="conversation-status-bar"
+        role="status"
+        aria-live="polite"
+      >
+        <span class="conversation-status-indicator" aria-hidden="true" />
+        <div class="conversation-status-copy">
+          <p class="conversation-status-label">{{ liveOverlay.activityLabel }}</p>
+          <p
+            v-if="liveOverlay.reasoningText"
+            class="conversation-status-detail"
+          >
+            {{ liveOverlay.reasoningText }}
+          </p>
+          <div v-if="liveOverlay.errorText" class="conversation-status-error">
+            <span>{{ liveOverlay.errorText }}</span>
+            <a class="live-overlay-feedback" :href="feedbackMailto" @click="prepareLiveErrorFeedback($event, liveOverlay.errorText)">Send feedback</a>
+          </div>
+        </div>
+      </article>
+
+      <button
+        v-if="showJumpToLatestButton"
+        type="button"
+        class="jump-to-latest-button"
+        title="Jump to latest"
+        aria-label="Jump to latest output"
+        @click="jumpToLatest"
+      >
+        <IconTablerArrowUp class="icon-svg jump-to-latest-icon" />
+      </button>
+    </div>
 
     <div v-if="modalImageUrl.length > 0" class="image-modal-backdrop" @click="closeImageModal">
       <div class="image-modal-content" @click.stop>
@@ -1337,7 +1347,7 @@ const toolQuestionAnswers = ref<Record<string, string>>({})
 const toolQuestionOtherAnswers = ref<Record<string, string>>({})
 const mcpElicitationAnswers = ref<Record<string, string | number | boolean | string[]>>({})
 const autoFollowOutput = ref(true)
-const BOTTOM_THRESHOLD_PX = 16
+const BOTTOM_THRESHOLD_PX = 80
 const CODE_LANGUAGE_ALIASES: Record<string, string> = {
   js: 'javascript',
   jsx: 'jsx',
@@ -1386,6 +1396,8 @@ type MessageBlock =
 let conversationScrollFrame = 0
 let bottomLockFrame = 0
 let bottomLockFramesLeft = 0
+let isProgrammaticConversationScroll = false
+let programmaticConversationScrollTimer = 0
 let copiedMessageResetTimer: ReturnType<typeof setTimeout> | null = null
 let conversationScrollPromise: Promise<void> | null = null
 const trackedPendingImages = new WeakSet<HTMLImageElement>()
@@ -4180,8 +4192,20 @@ function scrollToBottom(): void {
   const container = conversationListRef.value
   const anchor = bottomAnchorRef.value
   if (!container || !anchor) return
+  markProgrammaticConversationScroll()
   container.scrollTop = container.scrollHeight
   anchor.scrollIntoView({ block: 'end' })
+}
+
+function markProgrammaticConversationScroll(): void {
+  isProgrammaticConversationScroll = true
+  if (programmaticConversationScrollTimer) {
+    window.clearTimeout(programmaticConversationScrollTimer)
+  }
+  programmaticConversationScrollTimer = window.setTimeout(() => {
+    isProgrammaticConversationScroll = false
+    programmaticConversationScrollTimer = 0
+  }, 120)
 }
 
 function isAtBottom(container: HTMLElement): boolean {
@@ -4426,6 +4450,10 @@ watch(
 function onConversationScroll(): void {
   const container = conversationListRef.value
   if (!container || props.isLoading) return
+  if (isProgrammaticConversationScroll) {
+    autoFollowOutput.value = isAtBottom(container)
+    return
+  }
   autoFollowOutput.value = isAtBottom(container)
   if (hasMoreAbove.value && !isLoadingMore.value && container.scrollTop < LOAD_MORE_SCROLL_THRESHOLD_PX) {
     void loadMoreAbove()
@@ -4473,6 +4501,10 @@ onBeforeUnmount(() => {
     cancelAnimationFrame(bottomLockFrame)
     bottomLockFrame = 0
   }
+  if (programmaticConversationScrollTimer) {
+    window.clearTimeout(programmaticConversationScrollTimer)
+    programmaticConversationScrollTimer = 0
+  }
   if (copiedMessageResetTimer) {
     clearTimeout(copiedMessageResetTimer)
     copiedMessageResetTimer = null
@@ -4499,7 +4531,7 @@ onBeforeUnmount(() => {
 }
 
 .conversation-list {
-  @apply h-full min-h-0 list-none m-0 px-2 sm:px-6 py-0 overflow-y-auto overflow-x-visible flex flex-col gap-2 sm:gap-3;
+  @apply flex-1 min-h-0 list-none m-0 px-2 sm:px-6 py-0 overflow-y-auto overflow-x-visible flex flex-col gap-2 sm:gap-3;
 }
 
 .conversation-load-more {
@@ -4522,10 +4554,6 @@ onBeforeUnmount(() => {
   @apply justify-center;
 }
 
-.conversation-item-overlay {
-  @apply justify-center;
-}
-
 .message-row {
   @apply relative w-full min-w-0 max-w-[min(var(--chat-column-max,45rem),100%)] mx-auto flex;
 }
@@ -4543,12 +4571,71 @@ onBeforeUnmount(() => {
   @apply h-px;
 }
 
+.conversation-bottom-tray-spacer {
+  @apply block h-2 shrink-0;
+}
+
+.conversation-bottom-tray {
+  @apply shrink-0 px-2 pb-2 pt-1 sm:px-6;
+}
+
+.conversation-bottom-tray {
+  @apply mx-auto flex w-full max-w-[min(var(--chat-column-max,45rem),100%)] items-end gap-2;
+}
+
+.conversation-status-bar {
+  @apply flex min-w-0 flex-1 items-start gap-2 rounded-lg border border-zinc-200 bg-white/95 px-3 py-2 text-zinc-700 shadow-sm shadow-zinc-900/5 backdrop-blur;
+}
+
+.conversation-status-indicator {
+  @apply mt-1.5 h-2 w-2 shrink-0 rounded-full bg-emerald-500;
+  animation: conversation-status-pulse 1.1s ease-in-out infinite;
+}
+
+.conversation-status-copy {
+  @apply min-w-0 flex-1;
+}
+
+.conversation-status-label {
+  @apply m-0 text-xs font-semibold leading-4 text-zinc-700;
+}
+
+.conversation-status-detail {
+  @apply m-0 mt-0.5 max-h-10 overflow-auto text-xs leading-4 text-zinc-500 whitespace-pre-wrap break-words;
+  overflow-wrap: anywhere;
+  scrollbar-width: none;
+  mask-image: linear-gradient(to top, black 72%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to top, black 72%, transparent 100%);
+}
+
+.conversation-status-detail::-webkit-scrollbar {
+  display: none;
+}
+
+.conversation-status-error {
+  @apply mt-1 flex items-start justify-between gap-3 text-xs leading-4 text-rose-600 whitespace-pre-wrap;
+  overflow-wrap: anywhere;
+}
+
 .jump-to-latest-button {
-  @apply absolute left-1/2 bottom-4 z-20 inline-flex h-11 w-11 -translate-x-1/2 items-center justify-center rounded-full border border-slate-300 bg-white/96 text-slate-700 shadow-lg shadow-slate-900/10 transition hover:-translate-x-1/2 hover:-translate-y-0.5 hover:bg-white hover:text-slate-900;
+  @apply inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-zinc-200 bg-white/95 text-zinc-600 shadow-sm shadow-zinc-900/5 transition hover:-translate-y-0.5 hover:bg-white hover:text-zinc-900;
 }
 
 .jump-to-latest-icon {
   transform: rotate(180deg);
+}
+
+@keyframes conversation-status-pulse {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(0.85);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .message-stack {
