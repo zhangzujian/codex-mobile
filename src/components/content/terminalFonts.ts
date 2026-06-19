@@ -1,0 +1,18 @@
+export const TERMINAL_FONT_FAMILY = [
+  '"MesloLGS NF"',
+  '"MesloLGS Nerd Font"',
+  '"MesloLGS Nerd Font Mono"',
+  '"Symbols Nerd Font"',
+  '"Symbols Nerd Font Mono"',
+  '"CaskaydiaCove Nerd Font"',
+  '"CaskaydiaCove Nerd Font Mono"',
+  '"FiraCode Nerd Font"',
+  '"FiraCode Nerd Font Mono"',
+  '"JetBrainsMono Nerd Font"',
+  '"JetBrainsMono Nerd Font Mono"',
+  'Menlo',
+  'Monaco',
+  'Consolas',
+  '"Courier New"',
+  'monospace',
+].join(', ')

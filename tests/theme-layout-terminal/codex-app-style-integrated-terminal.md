@@ -34,6 +34,9 @@ Each local/worktree thread has an integrated xterm terminal that can be toggled 
 23. Click the terminal button in the top-right header
 24. Confirm the terminal opens below the new-chat composer before a thread exists
 25. Run `pwd` and confirm it matches the selected folder
+26. In a zsh/oh-my-zsh prompt that uses Powerlevel10k or Nerd Font symbols, confirm prompt icons render as glyphs rather than square fallback boxes
+27. Toggle light and dark theme
+28. Reopen the terminal in each theme and confirm prompt icons remain readable
 
 #### Expected Results
 - The terminal button shows a pressed state when the drawer is open
@@ -48,6 +51,8 @@ Each local/worktree thread has an integrated xterm terminal that can be toggled 
 - The `Run...` menu shows discovered project commands in usage order and scrolls when the list is longer than the visible menu
 - `New` adds another tab without killing the previous PTY
 - `Close` terminates the active PTY and hides the drawer only after the last tab is closed
+- The browser terminal font stack prefers `MesloLGS NF` and common Nerd Font families before plain monospace fallbacks
+- oh-my-zsh/Powerlevel10k symbols render correctly when a matching Nerd Font is installed in the browser environment
 
 #### Rollback/Cleanup
 - Close the terminal session with the `Close` button

@@ -44,6 +44,7 @@ import { Terminal } from '@xterm/xterm'
 import { FitAddon } from '@xterm/addon-fit'
 import '@xterm/xterm/css/xterm.css'
 import { useUiLanguage } from '../../composables/useUiLanguage'
+import { TERMINAL_FONT_FAMILY } from './terminalFonts'
 import {
   attachThreadTerminal,
   closeThreadTerminal,
@@ -159,7 +160,7 @@ function createTerminal(): void {
   if (!terminalHostRef.value) return
   terminal = new Terminal({
     cursorBlink: true,
-    fontFamily: 'Menlo, Monaco, Consolas, "Courier New", monospace',
+    fontFamily: TERMINAL_FONT_FAMILY,
     fontSize: 12,
     lineHeight: 1.25,
     scrollback: 10000,
