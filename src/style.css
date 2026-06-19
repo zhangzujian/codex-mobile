@@ -1876,6 +1876,32 @@
   @apply bg-zinc-900 text-zinc-200;
 }
 
+:root.dark .sidebar-settings-panel .sidebar-settings-key-input {
+  background-color: var(--color-zinc-800) !important;
+  border-color: var(--color-zinc-600) !important;
+  color: var(--color-zinc-200) !important;
+  transition-property: none !important;
+}
+
+:root.dark .sidebar-settings-panel .sidebar-settings-key-input::placeholder {
+  color: var(--color-zinc-500) !important;
+}
+
+:root.dark .sidebar-settings-panel .sidebar-settings-key-input:focus {
+  border-color: var(--color-zinc-500) !important;
+}
+
+:root.dark .sidebar-settings-panel .sidebar-settings-key-save {
+  background-color: var(--color-zinc-700) !important;
+  border-color: var(--color-zinc-600) !important;
+  color: var(--color-zinc-200) !important;
+  transition-property: none !important;
+}
+
+:root.dark .sidebar-settings-panel .sidebar-settings-key-save:hover {
+  background-color: var(--color-zinc-600) !important;
+}
+
 @media (max-width: 768px) {
   .thread-composer-input,
   .composer-dropdown-search-input,

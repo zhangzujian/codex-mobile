@@ -431,6 +431,29 @@
                   @update:model-value="onDictationLanguageChange"
                 />
               </div>
+              <label class="sidebar-settings-row sidebar-settings-row--input" :title="SETTINGS_HELP.terminalFont">
+                <span class="sidebar-settings-label">{{ t('Terminal font') }}</span>
+                <div class="sidebar-settings-key-group">
+                  <input
+                    v-model="terminalFontPreferenceDraft"
+                    class="sidebar-settings-key-input sidebar-settings-font-input"
+                    type="text"
+                    placeholder="MesloLGS NF"
+                    autocomplete="off"
+                    spellcheck="false"
+                    :style="terminalFontInputStyle"
+                    @change="saveTerminalFontPreference"
+                    @keydown.enter.prevent="saveTerminalFontPreference"
+                    @keydown.esc.prevent="resetTerminalFontPreferenceDraft"
+                  />
+                  <button
+                    class="sidebar-settings-key-save"
+                    type="button"
+                    :disabled="!terminalFontPreference"
+                    @click="clearTerminalFontPreference"
+                  >{{ t('Reset') }}</button>
+                </div>
+              </label>
               <button class="sidebar-settings-row" type="button" aria-live="polite" @click="isTelegramConfigOpen = !isTelegramConfigOpen">
                 <span class="sidebar-settings-label">{{ t('Telegram') }}</span>
                 <span class="sidebar-settings-value">{{ telegramStatusText }}</span>
@@ -937,6 +960,7 @@
                   class="content-thread-terminal-panel"
                   :thread-id="composerThreadContextId"
                   :cwd="composerCwd"
+                  :terminal-font-preference="terminalFontPreference"
                   @hide="onHideHomeTerminal"
                   @terminal-focus-change="onTerminalFocusChange"
                 />
@@ -1009,6 +1033,7 @@
                     class="content-thread-terminal-panel"
                     :thread-id="selectedThreadId"
                     :cwd="composerCwd"
+                    :terminal-font-preference="terminalFontPreference"
                     @hide="onHideSelectedThreadTerminal"
                     @terminal-focus-change="onTerminalFocusChange"
                   />
@@ -1231,6 +1256,7 @@ import type { GitCommitFileChange, GitCommitOption, LocalDirectoryEntry, Telegra
 import { getFreeModeStatus, setFreeMode, setFreeModeCustomKey, setCustomProvider } from './api/codexGateway'
 import { getPathLeafName, getPathParent, isProjectlessChatPath, normalizePathForUi } from './pathUtils.js'
 import { copyTextToClipboard } from './utils/clipboard'
+import { buildTerminalFontFamily, normalizeTerminalFontPreference } from './components/content/terminalFonts'
 
 const ThreadConversation = defineAsyncComponent(() => import('./components/content/ThreadConversation.vue'))
 const ThreadTerminalPanel = defineAsyncComponent(() => import('./components/content/ThreadTerminalPanel.vue'))
@@ -1253,6 +1279,7 @@ const SETTINGS_HELP = {
   dictationClickToToggle: t('Use click-to-start and click-to-stop dictation instead of hold-to-talk.'),
   dictationAutoSend: t('Automatically send transcribed dictation when recording stops.'),
   dictationLanguage: t('Choose transcription language or keep auto-detect.'),
+  terminalFont: t('Use a font installed in the browser OS for integrated terminals. Leave empty to use the default Nerd Font fallback stack.'),
 } as const
 
 type ChatWidthMode = 'standard' | 'wide' | 'extra-wide'
@@ -1613,6 +1640,7 @@ const DARK_MODE_KEY = 'codex-web-local.dark-mode.v1'
 const DICTATION_CLICK_TO_TOGGLE_KEY = 'codex-web-local.dictation-click-to-toggle.v1'
 const DICTATION_AUTO_SEND_KEY = 'codex-web-local.dictation-auto-send.v1'
 const DICTATION_LANGUAGE_KEY = 'codex-web-local.dictation-language.v1'
+const TERMINAL_FONT_PREFERENCE_KEY = 'codex-web-local.terminal-font-preference.v1'
 
 const CHAT_WIDTH_KEY = 'codex-web-local.chat-width.v1'
 const MOBILE_RESUME_RELOAD_MIN_HIDDEN_MS = 400
@@ -1623,6 +1651,8 @@ const chatWidth = ref<ChatWidthMode>(loadChatWidthPref())
 const dictationClickToToggle = ref(loadBoolPref(DICTATION_CLICK_TO_TOGGLE_KEY, false))
 const dictationAutoSend = ref(loadBoolPref(DICTATION_AUTO_SEND_KEY, true))
 const dictationLanguage = ref(loadDictationLanguagePref())
+const terminalFontPreference = ref(loadTerminalFontPreference())
+const terminalFontPreferenceDraft = ref(terminalFontPreference.value)
 const dictationLanguageOptions = computed(() => buildDictationLanguageOptions())
 const projectZipProgressText = computed(() => {
   const { loaded, total } = projectZipExportStatus.value
@@ -2077,6 +2107,9 @@ const terminalShortcutLabel = computed(() => {
 const terminalCommandPlaceholder = computed(() => (
   isComposerTerminalOpen.value ? t('Terminal') : t('Open terminal')
 ))
+const terminalFontInputStyle = computed(() => ({
+  fontFamily: buildTerminalFontFamily(terminalFontPreferenceDraft.value),
+}))
 const terminalHeaderQuickCommands = computed<TerminalHeaderQuickCommand[]>(() => {
   const storedByValue = new Map(terminalStoredQuickCommands.value.map((command) => [command.value, command]))
   const combined: TerminalHeaderQuickCommand[] = [
@@ -4323,6 +4356,27 @@ function cycleChatWidth(): void {
   window.localStorage.setItem(CHAT_WIDTH_KEY, chatWidth.value)
 }
 
+function saveTerminalFontPreference(): void {
+  const next = normalizeTerminalFontPreference(terminalFontPreferenceDraft.value)
+  terminalFontPreference.value = next
+  terminalFontPreferenceDraft.value = next
+  if (next) {
+    window.localStorage.setItem(TERMINAL_FONT_PREFERENCE_KEY, next)
+  } else {
+    window.localStorage.removeItem(TERMINAL_FONT_PREFERENCE_KEY)
+  }
+}
+
+function resetTerminalFontPreferenceDraft(): void {
+  terminalFontPreferenceDraft.value = terminalFontPreference.value
+}
+
+function clearTerminalFontPreference(): void {
+  terminalFontPreference.value = ''
+  terminalFontPreferenceDraft.value = ''
+  window.localStorage.removeItem(TERMINAL_FONT_PREFERENCE_KEY)
+}
+
 function toggleDictationClickToToggle(): void {
   dictationClickToToggle.value = !dictationClickToToggle.value
   window.localStorage.setItem(DICTATION_CLICK_TO_TOGGLE_KEY, dictationClickToToggle.value ? '1' : '0')
@@ -4525,6 +4579,11 @@ function loadDictationLanguagePref(): string {
   const value = window.localStorage.getItem(DICTATION_LANGUAGE_KEY)?.trim() || 'auto'
   const normalized = normalizeToWhisperLanguage(value)
   return normalized || 'auto'
+}
+
+function loadTerminalFontPreference(): string {
+  if (typeof window === 'undefined') return ''
+  return normalizeTerminalFontPreference(window.localStorage.getItem(TERMINAL_FONT_PREFERENCE_KEY) ?? '')
 }
 
 function buildDictationLanguageOptions(): Array<{ value: string; label: string }> {

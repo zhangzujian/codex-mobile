@@ -34,9 +34,14 @@ Each local/worktree thread has an integrated xterm terminal that can be toggled 
 23. Click the terminal button in the top-right header
 24. Confirm the terminal opens below the new-chat composer before a thread exists
 25. Run `pwd` and confirm it matches the selected folder
-26. In a zsh/oh-my-zsh prompt that uses Powerlevel10k or Nerd Font symbols, confirm prompt icons render as glyphs rather than square fallback boxes
-27. Toggle light and dark theme
-28. Reopen the terminal in each theme and confirm prompt icons remain readable
+26. Open Settings
+27. In `Terminal font`, enter an installed browser OS font such as `MesloLGS NF` or `JetBrainsMono Nerd Font Mono`, then press Enter
+28. Reopen the terminal
+29. In a zsh/oh-my-zsh prompt that uses Powerlevel10k or Nerd Font symbols, confirm prompt icons render as glyphs rather than square fallback boxes
+30. Toggle light and dark theme
+31. Reopen the terminal in each theme and confirm prompt icons remain readable
+32. Click `Reset` next to `Terminal font`
+33. Reopen the terminal and confirm it uses the default Nerd Font fallback stack
 
 #### Expected Results
 - The terminal button shows a pressed state when the drawer is open
@@ -52,6 +57,8 @@ Each local/worktree thread has an integrated xterm terminal that can be toggled 
 - `New` adds another tab without killing the previous PTY
 - `Close` terminates the active PTY and hides the drawer only after the last tab is closed
 - The browser terminal font stack prefers `MesloLGS NF` and common Nerd Font families before plain monospace fallbacks
+- A non-empty `Terminal font` setting is stored in browser local storage and prepended before the default terminal fallback stack
+- Resetting `Terminal font` removes the browser-local override
 - oh-my-zsh/Powerlevel10k symbols render correctly when a matching Nerd Font is installed in the browser environment
 
 #### Rollback/Cleanup

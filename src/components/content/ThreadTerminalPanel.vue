@@ -44,7 +44,7 @@ import { Terminal } from '@xterm/xterm'
 import { FitAddon } from '@xterm/addon-fit'
 import '@xterm/xterm/css/xterm.css'
 import { useUiLanguage } from '../../composables/useUiLanguage'
-import { TERMINAL_FONT_FAMILY } from './terminalFonts'
+import { buildTerminalFontFamily } from './terminalFonts'
 import {
   attachThreadTerminal,
   closeThreadTerminal,
@@ -59,6 +59,7 @@ import {
 const props = defineProps<{
   threadId: string
   cwd: string
+  terminalFontPreference?: string
 }>()
 
 type ThreadTerminalPanelExposed = {
@@ -156,11 +157,20 @@ watch(
   },
 )
 
+watch(
+  () => props.terminalFontPreference,
+  () => {
+    if (!terminal) return
+    terminal.options.fontFamily = buildTerminalFontFamily(props.terminalFontPreference ?? '')
+    scheduleFitAndResize()
+  },
+)
+
 function createTerminal(): void {
   if (!terminalHostRef.value) return
   terminal = new Terminal({
     cursorBlink: true,
-    fontFamily: TERMINAL_FONT_FAMILY,
+    fontFamily: buildTerminalFontFamily(props.terminalFontPreference ?? ''),
     fontSize: 12,
     lineHeight: 1.25,
     scrollback: 10000,
