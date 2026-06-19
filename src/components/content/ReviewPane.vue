@@ -282,7 +282,7 @@
         <div class="review-pane-sheet" @click.stop>
           <div class="review-pane-sheet-handle" aria-hidden="true"></div>
           <div class="review-pane-sheet-header">
-            <p class="review-pane-sheet-title">Changed files</p>
+            <p class="review-pane-sheet-title">{{ t('Changed files') }}</p>
             <p class="review-pane-sheet-count">{{ snapshot.files.length }}</p>
           </div>
           <div class="review-pane-sheet-list">

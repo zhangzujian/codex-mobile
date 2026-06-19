@@ -332,13 +332,13 @@
                   >
                     <template v-if="projectMenuMode === 'actions'">
                       <button class="project-menu-item" type="button" @click="onBrowseProjectFiles(group.projectName)">
-                        Browse files
+                        {{ t('Browse files') }}
                       </button>
                       <button class="project-menu-item" type="button" @click="onSaveProject(group.projectName)">
-                        Export Project
+                        {{ t('Export Project') }}
                       </button>
                       <button class="project-menu-item" type="button" @click="openProjectAutomationDialog(group.projectName)">
-                        {{ projectHasAutomation(group.projectName) ? 'Manage automations…' : 'Add automation…' }}
+                        {{ projectHasAutomation(group.projectName) ? t('Manage automations…') : t('Add automation…') }}
                       </button>
                       <button
                         v-if="projectGitRepoByName[group.projectName]"
@@ -346,10 +346,10 @@
                         type="button"
                         @click="onCreateProjectWorktree(group.projectName)"
                       >
-                        New worktree
+                        {{ t('New worktree') }}
                       </button>
                       <button class="project-menu-item" type="button" @click="openRenameProjectMenu(group)">
-                        Rename project
+                        {{ t('Rename project') }}
                       </button>
                       <button
                         class="project-menu-item project-menu-item-danger"
@@ -476,7 +476,7 @@
               <span class="thread-show-more-spacer" />
             </template>
             <button class="thread-show-more-button" type="button" @click="toggleProjectExpansion(group.projectName)">
-              {{ isExpanded(group.projectName) ? 'Show less' : 'Show more' }}
+              {{ isExpanded(group.projectName) ? t('Show less') : t('Show more') }}
             </button>
           </SidebarMenuRow>
       </article>
@@ -598,7 +598,7 @@
           <span class="thread-show-more-spacer" />
         </template>
         <button class="thread-show-more-button" type="button" @click="toggleChatsListExpansion">
-          {{ isChatsListExpanded ? 'Show less' : 'Show more' }}
+          {{ isChatsListExpanded ? t('Show less') : t('Show more') }}
         </button>
       </SidebarMenuRow>
     </section>
@@ -613,31 +613,31 @@
         @click.stop
       >
         <button class="thread-menu-item" type="button" @click="openAutomationDialog(openThreadMenuThread.id)">
-          {{ threadHasAutomation(openThreadMenuThread.id) ? 'Manage automations…' : 'Add automation…' }}
+          {{ threadHasAutomation(openThreadMenuThread.id) ? t('Manage automations…') : t('Add automation…') }}
         </button>
         <button class="thread-menu-item" type="button" @click="onBrowseThreadFiles(openThreadMenuThread.id)">
-          Browse files
+          {{ t('Browse files') }}
         </button>
         <button class="thread-menu-item" type="button" @click="onSaveThreadProject(openThreadMenuThread.id)">
-          Export Project
+          {{ t('Export Project') }}
         </button>
         <button class="thread-menu-item" type="button" @click="onCopyThreadPath(openThreadMenuThread.id)">
-          Copy path
+          {{ t('Copy path') }}
         </button>
         <button
           class="thread-menu-item"
           type="button"
           :disabled="openThreadMenuThread.id !== selectedThreadId"
-          :title="openThreadMenuThread.id === selectedThreadId ? 'Copy chat' : 'Open this chat before copying'"
+          :title="openThreadMenuThread.id === selectedThreadId ? t('Copy chat') : t('Open this chat before copying')"
           @click="onCopyThreadChat(openThreadMenuThread.id)"
         >
-          Copy chat
+          {{ t('Copy chat') }}
         </button>
         <button class="thread-menu-item" type="button" @click="onForkThread(openThreadMenuThread.id)">
-          Create chat fork
+          {{ t('Create chat fork') }}
         </button>
         <button class="thread-menu-item" type="button" @click="onTogglePinFromMenu(openThreadMenuThread.id)">
-          {{ isPinned(openThreadMenuThread.id) ? 'Unpin thread' : 'Pin thread' }}
+          {{ isPinned(openThreadMenuThread.id) ? t('Unpin thread') : t('Pin thread') }}
         </button>
         <button class="thread-menu-item" type="button" @click="openRenameThreadDialog(openThreadMenuThread.id, openThreadMenuThread.title)">
           {{ t('Rename thread') }}

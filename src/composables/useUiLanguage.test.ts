@@ -65,11 +65,35 @@ describe('UI language translations', () => {
       { file: 'src/components/content/ThreadPendingRequestPanel.vue', snippet: "return 'Awaiting approval'" },
       { file: 'src/components/content/ThreadConversation.vue', snippet: '>No messages in this thread yet.<' },
       { file: 'src/composables/useGithubSkillsSync.ts', snippet: "options.showToast('GitHub login successful')" },
+      { file: 'src/components/content/ReviewPane.vue', snippet: '>Changed files<' },
+      { file: 'src/components/content/ThreadConversation.vue', snippet: '>Changed files<' },
+      { file: 'src/components/content/ThreadConversation.vue', snippet: "|| '(no output)'" },
+      { file: 'src/components/content/ThreadConversation.vue', snippet: "|| '(command)'" },
+      { file: 'src/components/content/ThreadConversation.vue', snippet: "count === 1 ? '1 command'" },
+      { file: 'src/components/content/ThreadConversation.vue', snippet: "return `${countLabel} · latest:" },
+      { file: 'src/components/content/ThreadConversation.vue', snippet: "? 'Done'" },
+      { file: 'src/components/content/ThreadConversation.vue', snippet: ": '✗ Failed'" },
+      { file: 'src/components/content/ThreadConversation.vue', snippet: 'aria-label="Fork thread from this response"' },
+      { file: 'src/components/content/ThreadConversation.vue', snippet: '>Fork<' },
+      { file: 'src/components/content/ThreadConversation.vue', snippet: "? 'Response copied'" },
+      { file: 'src/components/content/ThreadConversation.vue', snippet: ": 'Copy response'" },
+      { file: 'src/components/content/ThreadConversation.vue', snippet: "? 'Copied'" },
+      { file: 'src/components/content/ThreadConversation.vue', snippet: ": 'Copy'" },
+    ]
+    const hardcodedPatterns: Array<{ file: string; pattern: RegExp; label: string }> = [
+      { file: 'src/components/sidebar/SidebarThreadTree.vue', pattern: />\s*Browse files\s*</u, label: 'Browse files text node' },
+      { file: 'src/components/sidebar/SidebarThreadTree.vue', pattern: />\s*Copy path\s*</u, label: 'Copy path text node' },
+      { file: 'src/components/sidebar/SidebarThreadTree.vue', pattern: />\s*Show more\s*</u, label: 'Show more text node' },
+      { file: 'src/components/sidebar/SidebarThreadTree.vue', pattern: />\s*Show less\s*</u, label: 'Show less text node' },
     ]
 
     const remaining = hardcodedSnippets.filter(({ file, snippet }) => readSource(file).includes(snippet))
+    const remainingPatterns = hardcodedPatterns.filter(({ file, pattern }) => pattern.test(readSource(file)))
     expect(
-      remaining.map(({ file, snippet }) => `${relative(repoRoot, join(repoRoot, file))}: ${snippet}`),
+      [
+        ...remaining.map(({ file, snippet }) => `${relative(repoRoot, join(repoRoot, file))}: ${snippet}`),
+        ...remainingPatterns.map(({ file, label }) => `${relative(repoRoot, join(repoRoot, file))}: ${label}`),
+      ],
     ).toEqual([])
   })
 })

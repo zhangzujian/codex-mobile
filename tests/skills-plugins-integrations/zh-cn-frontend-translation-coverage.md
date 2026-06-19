@@ -9,8 +9,13 @@
 2. Open the Skills route and switch through Skills, Plugins, Apps, and Composio tabs.
 3. Open the Automations route.
 4. Open a thread, inspect the message area, queued-message controls if present, and approval/input request cards if any are pending.
-5. Open the branch/worktree dropdown in the content header.
-6. Return to Settings and inspect provider, account, Telegram, feedback, and terminal font rows.
+5. In the sidebar, expand a project or Chats section with hidden rows and confirm Show more/Show less labels are translated.
+6. Open a project overflow menu and a thread overflow menu; inspect Browse files, Copy path, Export Project, automation, worktree, rename, fork, pin, and copy-chat actions.
+7. In a thread with command execution rows, inspect command group summaries, compact status labels such as Done/Failed, and empty output placeholders.
+8. In an assistant response toolbar, inspect Fork, Fork thread from this response, Copy, Copy response, Copied, and Response copied labels.
+9. Open changed-file review/diff surfaces and confirm Changed files is translated.
+10. Open the branch/worktree dropdown in the content header.
+11. Return to Settings and inspect provider, account, Telegram, feedback, and terminal font rows.
 
 #### Expected Results
 - Static controls, headings, placeholders, empty states, badges, buttons, and toast/fallback messages are shown in Simplified Chinese where they are app-provided UI copy.

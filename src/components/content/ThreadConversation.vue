@@ -64,7 +64,7 @@
                     @click="toggleCommandExpand(cmd)"
                   >
                     <span class="cmd-chevron" :class="{ 'cmd-chevron-open': isCommandExpanded(cmd) }">▶</span>
-                    <code class="cmd-label">{{ cmd.commandExecution?.command || '(command)' }}</code>
+                    <code class="cmd-label">{{ cmd.commandExecution?.command || t('(command)') }}</code>
                     <span class="cmd-status">{{ commandStatusLabel(cmd) }}</span>
                   </button>
                   <div
@@ -75,7 +75,7 @@
                       <pre
                         class="cmd-output"
                         :class="{ 'cmd-output-condensed': isCommandOutputCondensed(cmd) }"
-                        v-text="cmd.commandExecution?.aggregatedOutput || '(no output)'"
+                        v-text="cmd.commandExecution?.aggregatedOutput || t('(no output)')"
                       ></pre>
                     </div>
                   </div>
@@ -96,7 +96,7 @@
                 @click="toggleCommandExpand(message)"
               >
                 <span class="cmd-chevron" :class="{ 'cmd-chevron-open': isCommandExpanded(message) }">▶</span>
-                <code class="cmd-label">{{ message.commandExecution?.command || '(command)' }}</code>
+                <code class="cmd-label">{{ message.commandExecution?.command || t('(command)') }}</code>
                 <span class="cmd-status">{{ commandStatusLabel(message) }}</span>
               </button>
               <div
@@ -107,7 +107,7 @@
                   <pre
                     class="cmd-output"
                     :class="{ 'cmd-output-condensed': isCommandOutputCondensed(message) }"
-                    v-text="message.commandExecution?.aggregatedOutput || '(no output)'"
+                    v-text="message.commandExecution?.aggregatedOutput || t('(no output)')"
                   ></pre>
                 </div>
               </div>
@@ -293,7 +293,7 @@
                         @click="toggleCommandExpand(cmd)"
                       >
                         <span class="cmd-chevron" :class="{ 'cmd-chevron-open': isCommandExpanded(cmd) }">▶</span>
-                        <code class="cmd-label">{{ cmd.commandExecution?.command || '(command)' }}</code>
+                        <code class="cmd-label">{{ cmd.commandExecution?.command || t('(command)') }}</code>
                         <span class="cmd-status">{{ commandStatusLabel(cmd) }}</span>
                       </button>
                       <div
@@ -304,7 +304,7 @@
                           <pre
                             class="cmd-output"
                             :class="{ 'cmd-output-condensed': isCommandOutputCondensed(cmd) }"
-                            v-text="cmd.commandExecution?.aggregatedOutput || '(no output)'"
+                            v-text="cmd.commandExecution?.aggregatedOutput || t('(no output)')"
                           ></pre>
                         </div>
                       </div>
@@ -696,35 +696,35 @@
                   v-if="showEditMessageButton(message)"
                   type="button"
                   class="message-edit-button"
-                  aria-label="Edit this message"
-                  title="Edit this message"
+                  :aria-label="t('Edit this message')"
+                  :title="t('Edit this message')"
                   @click="editMessage(message.id)"
                 >
                   <IconTablerFilePencil class="icon-svg message-edit-icon" />
-                  <span class="message-edit-label">Edit message</span>
+                  <span class="message-edit-label">{{ t('Edit message') }}</span>
                 </button>
                 <button
                   v-if="showForkResponseButton(message)"
                   type="button"
                   class="message-fork-button"
-                  aria-label="Fork thread from this response"
-                  title="Fork thread from this response"
+                  :aria-label="t('Fork thread from this response')"
+                  :title="t('Fork thread from this response')"
                   @click="forkResponse(message.id)"
                 >
                   <IconTablerGitFork class="icon-svg message-fork-icon" />
-                  <span class="message-fork-label">Fork</span>
+                  <span class="message-fork-label">{{ t('Fork') }}</span>
                 </button>
                 <button
                   v-if="showCopyResponseButton(message)"
                   type="button"
                   class="message-copy-button"
                   :data-copied="copiedResponseAnchorId === message.id"
-                  :aria-label="copiedResponseAnchorId === message.id ? 'Response copied' : 'Copy response'"
-                  :title="copiedResponseAnchorId === message.id ? 'Response copied' : 'Copy response'"
+                  :aria-label="copiedResponseAnchorId === message.id ? t('Response copied') : t('Copy response')"
+                  :title="copiedResponseAnchorId === message.id ? t('Response copied') : t('Copy response')"
                   @click="copyResponse(message.id)"
                 >
                   <IconTablerCopy class="icon-svg message-copy-icon" />
-                  <span class="message-copy-label">{{ copiedResponseAnchorId === message.id ? 'Copied' : 'Copy' }}</span>
+                  <span class="message-copy-label">{{ copiedResponseAnchorId === message.id ? t('Copied') : t('Copy') }}</span>
                 </button>
               </div>
             </article>
@@ -811,7 +811,7 @@
       <div class="diff-viewer-shell" @click.stop>
         <aside v-if="!isMobile" class="diff-viewer-sidebar">
           <div class="diff-viewer-sidebar-header">
-            <p class="diff-viewer-sidebar-title">Changed files</p>
+            <p class="diff-viewer-sidebar-title">{{ t('Changed files') }}</p>
             <p class="diff-viewer-sidebar-count">{{ formatFileChangeCountLabel(diffViewerChanges.length) }}</p>
           </div>
           <div class="diff-viewer-sidebar-list">
@@ -896,7 +896,7 @@
             <div class="diff-viewer-mobile-sheet" @click.stop>
               <div class="diff-viewer-mobile-sheet-handle" aria-hidden="true"></div>
               <div class="diff-viewer-mobile-sheet-header">
-                <p class="diff-viewer-sidebar-title">Changed files</p>
+                <p class="diff-viewer-sidebar-title">{{ t('Changed files') }}</p>
                 <p class="diff-viewer-sidebar-count">{{ formatFileChangeCountLabel(diffViewerChanges.length) }}</p>
               </div>
               <div class="diff-viewer-mobile-sheet-list">
@@ -1214,9 +1214,9 @@ function isCommandGroupExpanded(message: UiMessage): boolean {
 function commandGroupSummaryLabel(message: UiMessage): string {
   const commands = getCommandBlockForLatest(message)
   const count = commands.length
-  const latestCommand = message.commandExecution?.command?.trim() || '(command)'
-  const countLabel = count === 1 ? '1 command' : `${count} commands`
-  return `${countLabel} · latest: ${latestCommand}`
+  const latestCommand = message.commandExecution?.command?.trim() || t('(command)')
+  const countLabel = count === 1 ? t('1 command') : t('{count} commands', { count })
+  return t('{countLabel} · latest: {command}', { countLabel, command: latestCommand })
 }
 
 function commandGroupSummaryStatus(message: UiMessage): string {
@@ -1282,11 +1282,11 @@ function commandStatusLabel(message: UiMessage): string {
   if (!ce) return ''
   const compact = isCommandCompact(message)
   switch (ce.status) {
-    case 'inProgress': return compact ? 'Running' : '⟳ Running'
-    case 'completed': return ce.exitCode === 0 ? (compact ? 'Done' : '✓ Completed') : `Exit ${ce.exitCode ?? '?'}`
-    case 'failed': return compact ? 'Failed' : '✗ Failed'
-    case 'declined': return compact ? 'Declined' : '⊘ Declined'
-    case 'interrupted': return compact ? 'Stopped' : '⊘ Interrupted'
+    case 'inProgress': return compact ? t('Running') : t('⟳ Running')
+    case 'completed': return ce.exitCode === 0 ? (compact ? t('Done') : t('✓ Completed')) : t('Exit {code}', { code: ce.exitCode ?? '?' })
+    case 'failed': return compact ? t('Failed') : t('✗ Failed')
+    case 'declined': return compact ? t('Declined') : t('⊘ Declined')
+    case 'interrupted': return compact ? t('Stopped') : t('⊘ Interrupted')
     default: return ''
   }
 }
