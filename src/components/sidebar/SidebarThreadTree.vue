@@ -39,10 +39,10 @@
                   class="thread-delete-button"
                   type="button"
                   :data-confirming="isInlineDeleteConfirming(thread.id)"
-                  :title="isInlineDeleteConfirming(thread.id) ? 'Confirm delete' : t('Delete thread')"
+                  :title="isInlineDeleteConfirming(thread.id) ? t('Confirm delete') : t('Delete thread')"
                   @click.stop="onInlineDeleteClick(thread.id)"
                 >
-                  <span v-if="isInlineDeleteConfirming(thread.id)" class="thread-delete-confirm-label">Confirm</span>
+                  <span v-if="isInlineDeleteConfirming(thread.id)" class="thread-delete-confirm-label">{{ t('Confirm') }}</span>
                   <IconTablerTrash v-else class="thread-icon" />
                 </button>
               </span>
@@ -80,7 +80,7 @@
                 <button
                   class="thread-menu-trigger"
                   type="button"
-                  title="thread_menu"
+                  :title="t('Thread menu')"
                   @click.stop="toggleThreadMenu(thread.id)"
                 >
                   <IconTablerDots class="thread-icon" />
@@ -207,10 +207,10 @@
                 class="thread-delete-button"
                 type="button"
                 :data-confirming="isInlineDeleteConfirming(thread.id)"
-                :title="isInlineDeleteConfirming(thread.id) ? 'Confirm delete' : t('Delete thread')"
+                :title="isInlineDeleteConfirming(thread.id) ? t('Confirm delete') : t('Delete thread')"
                 @click.stop="onInlineDeleteClick(thread.id)"
               >
-                <span v-if="isInlineDeleteConfirming(thread.id)" class="thread-delete-confirm-label">Confirm</span>
+                <span v-if="isInlineDeleteConfirming(thread.id)" class="thread-delete-confirm-label">{{ t('Confirm') }}</span>
                 <IconTablerTrash v-else class="thread-icon" />
               </button>
             </span>
@@ -248,7 +248,7 @@
               <button
                 class="thread-menu-trigger"
                 type="button"
-                title="thread_menu"
+                :title="t('Thread menu')"
                 @click.stop="toggleThreadMenu(thread.id)"
               >
                 <IconTablerDots class="thread-icon" />
@@ -318,7 +318,7 @@
                   <button
                     class="project-menu-trigger"
                     type="button"
-                    title="project_menu"
+                    :title="t('Project menu')"
                     @click.stop="toggleProjectMenu(group.projectName)"
                   >
                     <IconTablerDots class="thread-icon" />
@@ -412,10 +412,10 @@
                       class="thread-delete-button"
                       type="button"
                       :data-confirming="isInlineDeleteConfirming(thread.id)"
-                      :title="isInlineDeleteConfirming(thread.id) ? 'Confirm delete' : t('Delete thread')"
+                      :title="isInlineDeleteConfirming(thread.id) ? t('Confirm delete') : t('Delete thread')"
                       @click.stop="onInlineDeleteClick(thread.id)"
                     >
-                      <span v-if="isInlineDeleteConfirming(thread.id)" class="thread-delete-confirm-label">Confirm</span>
+                      <span v-if="isInlineDeleteConfirming(thread.id)" class="thread-delete-confirm-label">{{ t('Confirm') }}</span>
                       <IconTablerTrash v-else class="thread-icon" />
                     </button>
                   </span>
@@ -453,7 +453,7 @@
                     <button
                       class="thread-menu-trigger"
                       type="button"
-                      title="thread_menu"
+                      :title="t('Thread menu')"
                       @click.stop="toggleThreadMenu(thread.id)"
                     >
                       <IconTablerDots class="thread-icon" />
@@ -541,10 +541,10 @@
                   class="thread-delete-button"
                   type="button"
                   :data-confirming="isInlineDeleteConfirming(thread.id)"
-                  :title="isInlineDeleteConfirming(thread.id) ? 'Confirm delete' : t('Delete thread')"
+                  :title="isInlineDeleteConfirming(thread.id) ? t('Confirm delete') : t('Delete thread')"
                   @click.stop="onInlineDeleteClick(thread.id)"
                 >
-                  <span v-if="isInlineDeleteConfirming(thread.id)" class="thread-delete-confirm-label">Confirm</span>
+                  <span v-if="isInlineDeleteConfirming(thread.id)" class="thread-delete-confirm-label">{{ t('Confirm') }}</span>
                   <IconTablerTrash v-else class="thread-icon" />
                 </button>
               </span>
@@ -582,7 +582,7 @@
                 <button
                   class="thread-menu-trigger"
                   type="button"
-                  title="thread_menu"
+                  :title="t('Thread menu')"
                   @click.stop="toggleThreadMenu(thread.id)"
                 >
                   <IconTablerDots class="thread-icon" />
@@ -672,20 +672,20 @@
 
     <Teleport to="body">
       <div v-if="deleteThreadDialogVisible" class="rename-thread-overlay" @click.self="closeDeleteThreadDialog">
-        <div class="rename-thread-panel" role="dialog" aria-modal="true" aria-label="Delete thread">
-          <h3 class="rename-thread-title">{{ deleteThreadHasAutomation ? 'Archive chat and remove automations?' : 'Delete thread?' }}</h3>
+        <div class="rename-thread-panel" role="dialog" aria-modal="true" :aria-label="t('Delete thread')">
+          <h3 class="rename-thread-title">{{ deleteThreadHasAutomation ? t('Archive chat and remove automations?') : t('Delete thread?') }}</h3>
           <p class="rename-thread-subtitle">
             <template v-if="deleteThreadHasAutomation">
-              This will archive the thread "{{ deleteThreadTitle }}" and remove the attached heartbeat automations.
+              {{ t('This will archive the thread "{title}" and remove the attached heartbeat automations.', { title: deleteThreadTitle }) }}
             </template>
             <template v-else>
-              This will archive the thread "{{ deleteThreadTitle }}". You can find it later in archived threads.
+              {{ t('This will archive the thread "{title}". You can find it later in archived threads.', { title: deleteThreadTitle }) }}
             </template>
           </p>
           <div class="rename-thread-actions">
-            <button class="rename-thread-button" type="button" @click="closeDeleteThreadDialog">Cancel</button>
+            <button class="rename-thread-button" type="button" @click="closeDeleteThreadDialog">{{ t('Cancel') }}</button>
             <button class="rename-thread-button rename-thread-button-danger" type="button" @click="submitDeleteThread">
-              {{ deleteThreadHasAutomation ? 'Archive and remove' : 'Delete' }}
+              {{ deleteThreadHasAutomation ? t('Archive and remove') : t('Delete') }}
             </button>
           </div>
         </div>
@@ -985,6 +985,7 @@ type AutomationScheduleDraft = {
 
 const DRAG_START_THRESHOLD_PX = 4
 const PROJECT_GROUP_EXPANDED_GAP_PX = 6
+const DEFAULT_PROJECT_THREAD_LIMIT = 3
 const SECTION_EXPANSION_STORAGE_KEY = 'codex-web-local.sidebar-section-expansion.v1'
 const CHATS_FIRST_STORAGE_KEY = 'codex-web-local.sidebar-chats-first.v1'
 const CHAT_SORT_MODE_STORAGE_KEY = 'codex-web-local.sidebar-chat-sort-mode.v1'
@@ -2898,12 +2899,12 @@ function visibleThreads(group: UiProjectGroup): UiThread[] {
   if (isCollapsed(group.projectName)) return []
 
   const rows = projectThreads(group)
-  return isExpanded(group.projectName) ? rows : rows.slice(0, 10)
+  return isExpanded(group.projectName) ? rows : rows.slice(0, DEFAULT_PROJECT_THREAD_LIMIT)
 }
 
 function hasHiddenThreads(group: UiProjectGroup): boolean {
   if (isSearchActive.value) return false
-  return !isCollapsed(group.projectName) && projectThreads(group).length > 10
+  return !isCollapsed(group.projectName) && projectThreads(group).length > DEFAULT_PROJECT_THREAD_LIMIT
 }
 
 function hasThreads(group: UiProjectGroup): boolean {

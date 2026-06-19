@@ -20,6 +20,7 @@ Return to the [manual test index](../../tests.md).
 | [Editable current folder path in the folder picker](editable-current-folder-path-in-the-folder-picker.md) |
 | [Expandable Projects, Pinned, and Chats sidebar sections](expandable-projects-pinned-and-chats-sidebar-sections.md) |
 | [Sidebar chats show more projectless chats](sidebar-chats-show-more-projectless-chats.md) |
+| [Project groups show three threads by default](project-groups-show-three-threads-by-default.md) |
 | [Projectless new chat folder collisions](projectless-new-chat-folder-collisions.md) |
 | [Sidebar sessions survive symlinked workspace roots](sidebar-sessions-survive-symlinked-workspace-roots.md) |
 | [Sidebar scroll position survives collapse](sidebar-scroll-position-survives-collapse.md) |

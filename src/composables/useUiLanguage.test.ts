@@ -83,6 +83,9 @@ describe('UI language translations', () => {
       { file: 'src/components/content/ReviewPane.vue', snippet: "return 'Deleted'" },
       { file: 'src/components/content/ReviewPane.vue', snippet: "return 'Renamed'" },
       { file: 'src/components/content/ReviewPane.vue', snippet: "return 'Modified'" },
+      { file: 'src/components/sidebar/SidebarThreadTree.vue', snippet: 'title="project_menu"' },
+      { file: 'src/components/sidebar/SidebarThreadTree.vue', snippet: 'title="thread_menu"' },
+      { file: 'src/components/sidebar/SidebarThreadTree.vue', snippet: 'aria-label="Delete thread"' },
     ]
     const hardcodedPatterns: Array<{ file: string; pattern: RegExp; label: string }> = [
       { file: 'src/components/sidebar/SidebarThreadTree.vue', pattern: />\s*Browse files\s*</u, label: 'Browse files text node' },
@@ -90,6 +93,11 @@ describe('UI language translations', () => {
       { file: 'src/components/sidebar/SidebarThreadTree.vue', pattern: />\s*Show more\s*</u, label: 'Show more text node' },
       { file: 'src/components/sidebar/SidebarThreadTree.vue', pattern: />\s*Show less\s*</u, label: 'Show less text node' },
       { file: 'src/components/sidebar/SidebarThreadTree.vue', pattern: />\s*Remove\s*</u, label: 'Remove text node' },
+      { file: 'src/components/sidebar/SidebarThreadTree.vue', pattern: /\?\s*'Confirm delete'\s*:/u, label: 'Confirm delete ternary literal' },
+      { file: 'src/components/sidebar/SidebarThreadTree.vue', pattern: />\s*Confirm\s*</u, label: 'Confirm text node' },
+      { file: 'src/components/sidebar/SidebarThreadTree.vue', pattern: /\?\s*'Archive chat and remove automations\?'\s*:/u, label: 'Delete dialog title literal' },
+      { file: 'src/components/sidebar/SidebarThreadTree.vue', pattern: />\s*Cancel\s*</u, label: 'Cancel text node' },
+      { file: 'src/components/sidebar/SidebarThreadTree.vue', pattern: /\?\s*'Archive and remove'\s*:\s*'Delete'/u, label: 'Delete action ternary literal' },
     ]
 
     const remaining = hardcodedSnippets.filter(({ file, snippet }) => readSource(file).includes(snippet))
