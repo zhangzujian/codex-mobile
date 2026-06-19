@@ -192,6 +192,7 @@ describe('UI language translations', () => {
     const zhCN = extractZhCN()
 
     expect(zhCN.Edited).toBe('修改')
+    expect(zhCN.Moved).toBe('移动')
   })
 
   it('routes terminal error messages through the UI translator before rendering', () => {

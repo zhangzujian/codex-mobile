@@ -766,7 +766,7 @@ const zhCN: Record<string, string> = {
   'Redo file changes from this turn': '重做此轮的文件更改',
   'Failed to update file changes.': '更新文件更改失败。',
   'Moved + edited': '已移动并编辑',
-  'Moved': '已移动',
+  'Moved': '移动',
   'Edited': '修改',
   'Modified files': '已修改文件',
   '1 file changed': '1 个文件已更改',
