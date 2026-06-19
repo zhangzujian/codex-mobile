@@ -86,6 +86,7 @@ describe('UI language translations', () => {
       { file: 'src/components/sidebar/SidebarThreadTree.vue', snippet: 'title="project_menu"' },
       { file: 'src/components/sidebar/SidebarThreadTree.vue', snippet: 'title="thread_menu"' },
       { file: 'src/components/sidebar/SidebarThreadTree.vue', snippet: 'aria-label="Delete thread"' },
+      { file: 'src/components/content/ThreadTerminalPanel.vue', snippet: 'title="New"' },
     ]
     const hardcodedPatterns: Array<{ file: string; pattern: RegExp; label: string }> = [
       { file: 'src/components/sidebar/SidebarThreadTree.vue', pattern: />\s*Browse files\s*</u, label: 'Browse files text node' },
@@ -98,6 +99,7 @@ describe('UI language translations', () => {
       { file: 'src/components/sidebar/SidebarThreadTree.vue', pattern: /\?\s*'Archive chat and remove automations\?'\s*:/u, label: 'Delete dialog title literal' },
       { file: 'src/components/sidebar/SidebarThreadTree.vue', pattern: />\s*Cancel\s*</u, label: 'Cancel text node' },
       { file: 'src/components/sidebar/SidebarThreadTree.vue', pattern: /\?\s*'Archive and remove'\s*:\s*'Delete'/u, label: 'Delete action ternary literal' },
+      { file: 'src/components/content/ThreadTerminalPanel.vue', pattern: />\s*New\s*</u, label: 'New terminal action text node' },
     ]
 
     const remaining = hardcodedSnippets.filter(({ file, snippet }) => readSource(file).includes(snippet))

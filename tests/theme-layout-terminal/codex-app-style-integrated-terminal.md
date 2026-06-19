@@ -23,7 +23,7 @@ Each local/worktree thread has an integrated xterm terminal that can be toggled 
 12. Confirm the JSON `session.buffer` contains `terminal-ok`
 13. Refresh the page and reopen the same thread
 14. Toggle the terminal open again
-15. Click `New`
+15. Click `New` or its localized equivalent in the terminal header
 16. Confirm a second terminal tab appears and becomes active
 17. Click the first terminal tab
 18. Confirm its previous output is restored
@@ -53,7 +53,7 @@ Each local/worktree thread has an integrated xterm terminal that can be toggled 
 - The terminal resizes without clipping the prompt
 - The snapshot endpoint returns `{ session: { cwd, shell, buffer, truncated } }` while a session exists
 - The quick-command menu sends common project commands such as `npm run dev` into the current PTY
-- The terminal open/hide action remains available from the `Run...` menu when quick commands are present
+- The terminal open/hide action remains available from the dedicated terminal button, and is not duplicated inside the `Run...` menu
 - The `Run...` menu shows discovered project commands in usage order and scrolls when the list is longer than the visible menu
 - `New` adds another tab without killing the previous PTY
 - `Close` terminates the active PTY and hides the drawer only after the last tab is closed

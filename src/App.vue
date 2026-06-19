@@ -1282,7 +1282,6 @@ const { t, uiLanguage, uiLanguageOptions, setUiLanguage } = useUiLanguage()
 const SIDEBAR_COLLAPSED_STORAGE_KEY = 'codex-web-local.sidebar-collapsed.v1'
 const ACCOUNTS_SECTION_COLLAPSED_STORAGE_KEY = 'codex-web-local.accounts-section-collapsed.v1'
 const TERMINAL_QUICK_COMMAND_STORAGE_KEY = 'codex-web-local.terminal-quick-commands.v1'
-const TOGGLE_TERMINAL_COMMAND_VALUE = '__toggle_terminal__'
 const worktreeName = import.meta.env.VITE_WORKTREE_NAME ?? 'unknown'
 const appVersion = import.meta.env.VITE_APP_VERSION ?? 'unknown'
 const SETTINGS_HELP = {
@@ -2146,10 +2145,9 @@ const terminalHeaderQuickCommands = computed<TerminalHeaderQuickCommand[]>(() =>
   return combined
     .sort(compareTerminalQuickCommands)
 })
-const terminalHeaderDropdownOptions = computed(() => [
-  { label: terminalToggleLabel.value, value: TOGGLE_TERMINAL_COMMAND_VALUE },
-  ...terminalHeaderQuickCommands.value.map((command) => ({ label: command.label, value: command.value })),
-])
+const terminalHeaderDropdownOptions = computed(() =>
+  terminalHeaderQuickCommands.value.map((command) => ({ label: command.label, value: command.value })),
+)
 const contentStyle = computed(() => {
   const preset = CHAT_WIDTH_PRESETS[chatWidth.value]
   const keyboardInset = Math.max(
@@ -3187,10 +3185,6 @@ function toggleComposerTerminal(): void {
 function onSelectHeaderTerminalCommand(command: string): void {
   terminalHeaderDropdownValue.value = ''
   if (!command) return
-  if (command === TOGGLE_TERMINAL_COMMAND_VALUE) {
-    toggleComposerTerminal()
-    return
-  }
   void openTerminalAndRunCommand(command)
 }
 

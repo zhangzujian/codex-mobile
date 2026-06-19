@@ -16,4 +16,12 @@ describe('terminal header UX', () => {
     expect(source).not.toContain('v-else-if="canShowTerminalQuickCommandDropdown"')
     expect(source).not.toMatch(/<ComposerDropdown\s+v-if="canShowTerminalToggle"[\s\S]*:options="terminalHeaderDropdownOptions"/u)
   })
+
+  it('does not duplicate the terminal toggle inside the run command menu', () => {
+    const source = readAppSource()
+    const optionsBlock = source.match(/const terminalHeaderDropdownOptions = computed\([\s\S]*?\)\nconst contentStyle/u)?.[0] ?? ''
+
+    expect(source).not.toContain('TOGGLE_TERMINAL_COMMAND_VALUE')
+    expect(optionsBlock).not.toContain('terminalToggleLabel')
+  })
 })

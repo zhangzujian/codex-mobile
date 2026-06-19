@@ -14,9 +14,10 @@
 7. In a thread with command execution rows, inspect command group summaries, compact status labels such as Done/Failed, and empty output placeholders.
 8. In an assistant response toolbar, inspect Fork, Fork thread from this response, Copy, Copy response, Copied, and Response copied labels.
 9. Open changed-file review/diff surfaces and confirm Changed files plus file operation badges such as Added, Modified, Deleted, and Renamed are translated.
-10. Open the branch/worktree dropdown in the content header.
+10. Open the branch/worktree dropdown in the content header and inspect commit file status badges such as Added, Modified, Deleted, and Renamed.
 11. Open delete confirmation UI from a thread row/menu and confirm the title, explanatory text, Confirm, Cancel, Delete, and archive/remove labels are translated.
-12. Return to Settings and inspect provider, account, Telegram, feedback, and terminal font rows.
+12. Open the integrated terminal and inspect terminal header actions such as New terminal, Hide, and Close.
+13. Return to Settings and inspect provider, account, Telegram, feedback, and terminal font rows.
 
 #### Expected Results
 - Static controls, headings, placeholders, empty states, badges, buttons, and toast/fallback messages are shown in Simplified Chinese where they are app-provided UI copy.

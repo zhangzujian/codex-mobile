@@ -74,7 +74,7 @@
                   @click="openCommitFile(file.path)"
                 >
                   <span class="header-git-file-meta-row">
-                    <span class="header-git-file-status">{{ file.label }}</span>
+                    <span class="header-git-file-status">{{ formatCommitFileStatus(file) }}</span>
                     <span class="header-git-file-delta">
                       <span class="header-git-file-added">+{{ formatFileLineCount(file.addedLineCount) }}</span>
                       <span class="header-git-file-removed">-{{ formatFileLineCount(file.removedLineCount) }}</span>
@@ -328,6 +328,16 @@ function isCurrentCommit(commit: GitCommitOption): boolean {
 
 function selectedBranchCommitActionTitle(commit: GitCommitOption): string {
   return t('Show {sha} files', { sha: commit.shortSha })
+}
+
+function formatCommitFileStatus(file: GitCommitFileChange): string {
+  const status = file.status.trim().toUpperCase()
+  if (status === 'A') return t('Added')
+  if (status === 'D') return t('Deleted')
+  if (status === 'R') return t('Renamed')
+  if (status === 'M') return t('Modified')
+  const label = file.label.trim()
+  return label ? t(label) : status
 }
 
 function onSelectCommit(commit: GitCommitOption): void {
