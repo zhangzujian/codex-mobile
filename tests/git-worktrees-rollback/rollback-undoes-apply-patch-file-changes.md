@@ -44,11 +44,13 @@
 8. Confirm the button enters a `Redoing` pending state and then changes back to `Undo`.
 9. Verify the file contents on disk match the assistant turn's changes again with `cat <file>` or a diff against the assistant-modified snapshot.
 10. Repeat steps 1-9 in light theme and dark theme.
+11. Set UI language to Simplified Chinese, hover or inspect the file-change action button, and verify its accessible title is `撤销此轮的文件更改` before undo and `重做此轮的文件更改` after undo.
 
 #### Expected Results
 - Undo reverts the file changes applied by the selected turn without changing chat history.
 - Redo reapplies the previously run `apply_patch` input without changing chat history.
 - The file-change action row shows exactly one action button at a time: `Undo` before rollback, `Redo` after undo, and `Undo` again after redo.
+- In Simplified Chinese mode, the action button title/aria-label uses `撤销此轮的文件更改` for undo and `重做此轮的文件更改` for redo instead of raw English.
 - If Undo fails, the inline error stays visible and the single action still switches to `Redo` so the user can reapply or recover the visible action state.
 - Any backend error appears inline in the file-change panel.
 - The action row uses themed controls that remain readable in light and dark theme.

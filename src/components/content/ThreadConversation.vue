@@ -196,8 +196,8 @@
                         type="button"
                         class="file-change-action-button"
                         :disabled="fileChangeActionStatus(readStandaloneFileChangeSummary(message)) === 'undoing' || fileChangeActionStatus(readStandaloneFileChangeSummary(message)) === 'redoing'"
-                        :title="fileChangeNextAction(readStandaloneFileChangeSummary(message)) === 'redo' ? 'Redo file changes from this turn' : 'Undo file changes from this turn'"
-                        :aria-label="fileChangeNextAction(readStandaloneFileChangeSummary(message)) === 'redo' ? 'Redo file changes from this turn' : 'Undo file changes from this turn'"
+                        :title="fileChangeActionTitle(readStandaloneFileChangeSummary(message))"
+                        :aria-label="fileChangeActionTitle(readStandaloneFileChangeSummary(message))"
                         @click="runFileChangeAction(readStandaloneFileChangeSummary(message), fileChangeNextAction(readStandaloneFileChangeSummary(message)))"
                       >
                         <IconTablerArrowBackUp
@@ -675,8 +675,8 @@
                         type="button"
                         class="file-change-action-button"
                         :disabled="fileChangeActionStatus(readAnchoredFileChangeSummary(message)) === 'undoing' || fileChangeActionStatus(readAnchoredFileChangeSummary(message)) === 'redoing'"
-                        :title="fileChangeNextAction(readAnchoredFileChangeSummary(message)) === 'redo' ? 'Redo file changes from this turn' : 'Undo file changes from this turn'"
-                        :aria-label="fileChangeNextAction(readAnchoredFileChangeSummary(message)) === 'redo' ? 'Redo file changes from this turn' : 'Undo file changes from this turn'"
+                        :title="fileChangeActionTitle(readAnchoredFileChangeSummary(message))"
+                        :aria-label="fileChangeActionTitle(readAnchoredFileChangeSummary(message))"
                         @click="runFileChangeAction(readAnchoredFileChangeSummary(message), fileChangeNextAction(readAnchoredFileChangeSummary(message)))"
                       >
                         <IconTablerArrowBackUp
@@ -795,10 +795,10 @@
       @click.stop
     >
       <button type="button" class="file-link-context-menu-item" @click="openFileLinkContextBrowse">
-        Open link
+        {{ t('Open link') }}
       </button>
       <button type="button" class="file-link-context-menu-item" @click="copyFileLinkContextLink">
-        Copy link
+        {{ t('Copy link') }}
       </button>
       <button
         v-if="fileLinkContextEditUrl"
@@ -806,7 +806,7 @@
         class="file-link-context-menu-item"
         @click="openFileLinkContextEdit"
       >
-        Edit file
+        {{ t('Edit file') }}
       </button>
     </div>
 
@@ -2081,6 +2081,12 @@ function fileChangeActionLabel(summary: TurnFileChangeSummary | null): string {
   if (status === 'undoing') return t('Undoing')
   if (status === 'redoing') return t('Redoing')
   return fileChangeNextAction(summary) === 'redo' ? t('Redo') : t('Undo')
+}
+
+function fileChangeActionTitle(summary: TurnFileChangeSummary | null): string {
+  return fileChangeNextAction(summary) === 'redo'
+    ? t('Redo file changes from this turn')
+    : t('Undo file changes from this turn')
 }
 
 async function runFileChangeAction(summary: TurnFileChangeSummary | null, action: 'undo' | 'redo'): Promise<void> {

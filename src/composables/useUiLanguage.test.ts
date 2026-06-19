@@ -79,6 +79,9 @@ describe('UI language translations', () => {
       { file: 'src/components/content/ThreadConversation.vue', snippet: ": 'Copy response'" },
       { file: 'src/components/content/ThreadConversation.vue', snippet: "? 'Copied'" },
       { file: 'src/components/content/ThreadConversation.vue', snippet: ": 'Copy'" },
+      { file: 'src/components/content/ThreadConversation.vue', snippet: '>Open link<' },
+      { file: 'src/components/content/ThreadConversation.vue', snippet: '>Copy link<' },
+      { file: 'src/components/content/ThreadConversation.vue', snippet: '>Edit file<' },
       { file: 'src/components/content/ReviewPane.vue', snippet: "return 'Added'" },
       { file: 'src/components/content/ReviewPane.vue', snippet: "return 'Deleted'" },
       { file: 'src/components/content/ReviewPane.vue', snippet: "return 'Renamed'" },
@@ -112,6 +115,11 @@ describe('UI language translations', () => {
       { file: 'src/components/sidebar/SidebarThreadTree.vue', pattern: />\s*Add another automation\s*</u, label: 'Add another automation text node' },
       { file: 'src/components/sidebar/SidebarThreadTree.vue', pattern: />\s*Run now\s*</u, label: 'Run now text node' },
       { file: 'src/components/sidebar/SidebarThreadTree.vue', pattern: />\s*Remove\s*</u, label: 'Remove text node' },
+      { file: 'src/components/content/ThreadConversation.vue', pattern: />\s*Open link\s*</u, label: 'Open link context menu text node' },
+      { file: 'src/components/content/ThreadConversation.vue', pattern: />\s*Copy link\s*</u, label: 'Copy link context menu text node' },
+      { file: 'src/components/content/ThreadConversation.vue', pattern: />\s*Edit file\s*</u, label: 'Edit file context menu text node' },
+      { file: 'src/components/content/ThreadConversation.vue', pattern: /:title="[^"]*'Undo file changes from this turn'/u, label: 'Undo file changes title literal' },
+      { file: 'src/components/content/ThreadConversation.vue', pattern: /:title="[^"]*'Redo file changes from this turn'/u, label: 'Redo file changes title literal' },
     ]
 
     const remaining = hardcodedSnippets.filter(({ file, snippet }) => readSource(file).includes(snippet))
@@ -162,6 +170,18 @@ describe('UI language translations', () => {
       'runs every {count} day',
       'runs every {count} days',
       'RRULE is required.',
+    ].filter((key) => !zhCNKeys.has(key))).toEqual([])
+  })
+
+  it('has Simplified Chinese entries for chat link and file-change actions surfaced to users', () => {
+    const zhCNKeys = extractZhCNKeys()
+
+    expect([
+      'Open link',
+      'Copy link',
+      'Edit file',
+      'Undo file changes from this turn',
+      'Redo file changes from this turn',
     ].filter((key) => !zhCNKeys.has(key))).toEqual([])
   })
 
