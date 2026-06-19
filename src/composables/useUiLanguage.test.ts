@@ -193,6 +193,7 @@ describe('UI language translations', () => {
 
     expect(zhCN.Edited).toBe('修改')
     expect(zhCN.Moved).toBe('移动')
+    expect(zhCN['Moved + edited']).toBe('移动并修改')
   })
 
   it('routes terminal error messages through the UI translator before rendering', () => {
