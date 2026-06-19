@@ -144,6 +144,7 @@ describe('UI language translations', () => {
       'Terminal error',
       'Terminal close failed',
       'Quick command failed',
+      'Run in terminal',
       'Terminal is not connected',
       'Terminal is not ready',
     ].filter((key) => !zhCNKeys.has(key))).toEqual([])

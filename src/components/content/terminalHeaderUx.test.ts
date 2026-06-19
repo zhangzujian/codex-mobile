@@ -24,4 +24,28 @@ describe('terminal header UX', () => {
     expect(source).not.toContain('TOGGLE_TERMINAL_COMMAND_VALUE')
     expect(optionsBlock).not.toContain('terminalToggleLabel')
   })
+
+  it('uses a distinct run icon for the quick command menu', () => {
+    const source = readAppSource()
+
+    expect(source).toContain('IconPlayerPlay as IconTablerPlayerPlay')
+    expect(source).toMatch(/<ComposerDropdown[\s\S]*:selected-prefix-icon="IconTablerPlayerPlay"/u)
+    expect(source).not.toMatch(/<ComposerDropdown[\s\S]*:selected-prefix-icon="IconTablerTerminal"[\s\S]*@update:model-value="onSelectHeaderTerminalCommand"/u)
+  })
+
+  it('labels the quick command menu as running in the terminal', () => {
+    const source = readAppSource()
+
+    expect(source).toContain("t('Run in terminal')")
+    expect(source).not.toMatch(/const terminalHeaderDropdownPlaceholder = computed\(\(\) => \([\s\S]*t\('Run\.\.\.'\)/u)
+  })
+
+  it('waits long enough for the async terminal panel before running a selected command', () => {
+    const source = readAppSource()
+
+    expect(source).toContain('TERMINAL_PANEL_WAIT_TIMEOUT_MS')
+    expect(source).toContain('TERMINAL_PANEL_WAIT_INTERVAL_MS')
+    expect(source).toMatch(/Date\.now\(\) \+ TERMINAL_PANEL_WAIT_TIMEOUT_MS/u)
+    expect(source).not.toContain('for (let attempt = 0; attempt < 20; attempt += 1)')
+  })
 })

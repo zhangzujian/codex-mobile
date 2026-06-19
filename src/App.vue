@@ -582,7 +582,7 @@
               :model-value="terminalHeaderDropdownValue"
               :options="terminalHeaderDropdownOptions"
               :placeholder="terminalHeaderDropdownPlaceholder"
-              :selected-prefix-icon="IconTablerTerminal"
+              :selected-prefix-icon="IconTablerPlayerPlay"
               :icon-only="true"
               menu-align="end"
               :empty-label="t('No commands')"
@@ -1225,6 +1225,7 @@ import {
   IconChevronRight as IconTablerChevronRight,
   IconSearch as IconTablerSearch,
   IconSettings as IconTablerSettings,
+  IconPlayerPlay as IconTablerPlayerPlay,
   IconTerminal as IconTablerTerminal,
   IconX as IconTablerX,
 } from '@tabler/icons-vue'
@@ -1287,6 +1288,8 @@ const { t, uiLanguage, uiLanguageOptions, setUiLanguage } = useUiLanguage()
 const SIDEBAR_COLLAPSED_STORAGE_KEY = 'codex-web-local.sidebar-collapsed.v1'
 const ACCOUNTS_SECTION_COLLAPSED_STORAGE_KEY = 'codex-web-local.accounts-section-collapsed.v1'
 const TERMINAL_QUICK_COMMAND_STORAGE_KEY = 'codex-web-local.terminal-quick-commands.v1'
+const TERMINAL_PANEL_WAIT_TIMEOUT_MS = 3_000
+const TERMINAL_PANEL_WAIT_INTERVAL_MS = 25
 const worktreeName = import.meta.env.VITE_WORKTREE_NAME ?? 'unknown'
 const appVersion = import.meta.env.VITE_APP_VERSION ?? 'unknown'
 const SETTINGS_HELP = {
@@ -2129,7 +2132,7 @@ const terminalToggleLabel = computed(() => (
   isComposerTerminalOpen.value ? t('Hide terminal') : t('Open terminal')
 ))
 const terminalHeaderDropdownPlaceholder = computed(() => (
-  isComposerTerminalOpen.value ? t('Terminal') : t('Run...')
+  t('Run in terminal')
 ))
 const terminalFontInputStyle = computed(() => ({
   fontFamily: buildTerminalFontFamily(terminalFontPreferenceDraft.value),
@@ -3213,11 +3216,12 @@ async function openTerminalAndRunCommand(command: string): Promise<void> {
 }
 
 async function waitForTerminalPanel(): Promise<ThreadTerminalPanelExposed | null> {
-  for (let attempt = 0; attempt < 20; attempt += 1) {
+  const deadline = Date.now() + TERMINAL_PANEL_WAIT_TIMEOUT_MS
+  while (Date.now() < deadline) {
     await nextTick()
     const panel = isHomeRoute.value ? homeTerminalPanelRef.value : threadTerminalPanelRef.value
     if (panel) return panel
-    await new Promise((resolve) => window.setTimeout(resolve, 25))
+    await new Promise((resolve) => window.setTimeout(resolve, TERMINAL_PANEL_WAIT_INTERVAL_MS))
   }
   return null
 }
